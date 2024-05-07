@@ -1,0 +1,14 @@
+version: '3.8'  # Use version 3.8 of the Docker Compose file specification
+
+services:
+  icps-dl:
+    build: ./app  # Build the Docker image using the Dockerfile in the current directory
+    #volumes:
+    #  - ./outputs:/usr/app  # Mount the 'app' directory from the host to '/app' in the container
+    ports:
+      - "8080:8080"  # Assuming you might want to expose port 8080 (optional, adjust as needed)
+    #expose:
+    #  - 8000
+    entrypoint: ["/bin/bash"]  # Override the default entrypoint to bash (optional)
+    stdin_open: true  # Keep STDIN open even if not attached (similar to -i in docker run)
+    tty: true  # Allocate a pseudo-TTY (similar to -t in docker run)

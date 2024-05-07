@@ -1,0 +1,3 @@
+wdn := load example/wdn
+simple := load example/simple
+mermaid simple
