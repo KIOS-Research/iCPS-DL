@@ -1,3 +1,32 @@
 wdn := load example/wdn
 simple := load example/simple
 mermaid simple
+arGraph := translate simple
+
+trees := traverse t.head arGraph
+
+kb := load example/kb
+
+lc0 := configure trees[0] kb controller u
+lc1 := configure trees[1] kb controller u
+lc2 := configure trees[2] kb controller u
+lc3 := configure trees[3] kb controller u
+lc4 := configure trees[4] kb controller u
+lc5 := configure trees[5] kb controller u
+lc6 := configure trees[6] kb controller u
+
+gc0 := compose lc0
+gc1 := compose lc1
+gc2 := compose lc2
+gc3 := compose lc3
+gc4 := compose lc4
+gc5 := compose lc5
+gc6 := compose lc6
+
+mermaid trees[0]
+mermaid trees[1]
+mermaid trees[2]
+mermaid trees[3]
+mermaid trees[4]
+mermaid trees[5]
+mermaid trees[6]

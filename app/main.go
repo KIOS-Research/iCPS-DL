@@ -1,4 +1,5 @@
 package main
+import "os"
 import "main/ast"
 
  /*********************
@@ -7,5 +8,6 @@ import "main/ast"
 
 func main() {
     program := ast.NewProgram()
-    program.RunTerminal()
+    //program.RunTerminal()
+    program.Run(os.Args[1:])
 }

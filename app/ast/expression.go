@@ -620,6 +620,10 @@ func (this *accessExpression) execute(context *program) (expression, util.ErrorL
     return this.executed, log
 }
 
+func (this *accessExpression) getModule() string {
+    return fmt.Sprintf("%v_%v", this.expressionImpl.getModule(), this.index)
+}
+
 func (this *accessExpression) prettyPrint(stream *util.Stream) {
     this.expressionImpl.prettyPrint(stream)
     s := fmt.Sprintf("[%v]", this.index)

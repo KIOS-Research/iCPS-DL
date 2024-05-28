@@ -115,15 +115,23 @@ func (this *mermaidExpression) execute(context *program) (expression, util.Error
     stream := util.NewStream()
     mmd.mermaid(stream)
     this.mmd = stream.ToString()
-//    this.createDiagram(log)
+    this.createDiagram(log)
     return this, log
 }
 
 func (this *mermaidExpression) createDiagram(log util.ErrorLog) {
     html := createMermaidHTML(this.mmd)
-    filename, err := util.CreateTmpFile(html, "html")
+    file := this.getModule()
+    //filename, err := util.CreateTmpFile(html, "html")
+    //if err != nil {
+    //    error := fmt.Sprintf("Failed to create mermaid file: %s", err)
+    //    log.Add(util.NewSystemError(error))
+    //    return
+    //}
+    filename := file + ".html"
+    err := util.CreateFile(filename, html)
     if err != nil {
-        error := fmt.Sprintf("Failed to create mermaid file: %s.", err)
+        error := fmt.Sprintf("Failed to create mermaid file: %s", err)
         log.Add(util.NewSystemError(error))
         return
     }
