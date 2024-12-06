@@ -1,0 +1,23 @@
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Mermaid Diagram</title>
+            <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+            <script>mermaid.initialize({startOnLoad:true});</script>
+        </head>
+        <body>
+            <div class="mermaid">   graph TD;
+   	s5((s5))--->p1.flow(p1.flow);
+   	j3.junction2way_mass[j3.junction2way_mass]--->p2.flow(p2.flow);
+   	j3.flow(j3.flow)--->j3.junction2way_mass[j3.junction2way_mass];
+   	s8((s8))--->j3.flow(j3.flow);
+   	p1.flow(p1.flow)--->t.tank_mass[t.tank_mass];
+   	t.tank_mass[t.tank_mass]--->t.head(t.head);
+   	t.tank_shape(t.tank_shape)--->t.tank_mass[t.tank_mass];
+   	p2.flow(p2.flow)--->t.tank_mass[t.tank_mass];
+
+            </div>
+        </body>
+    </html>
+    

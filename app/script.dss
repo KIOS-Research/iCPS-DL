@@ -1,12 +1,16 @@
+# load the water distribution network domain
 wdn := load example/wdn
-simple := load example/simple
-mermaid simple
-arGraph := translate simple
 
-trees := traverse t.head arGraph
-
+# load the agent knowledge base
 kb := load example/kb
 
+# load the industrial process knowledge graph
+simple := load example/simple
+
+seq := translate simple
+trees := traverse t.head seq
+
+# configure the control loops corresponding to state estimation trees
 lc0 := configure trees[0] kb controller u
 lc1 := configure trees[1] kb controller u
 lc2 := configure trees[2] kb controller u
@@ -15,14 +19,17 @@ lc4 := configure trees[4] kb controller u
 lc5 := configure trees[5] kb controller u
 lc6 := configure trees[6] kb controller u
 
-gc0 := compose lc0
-gc1 := compose lc1
-gc2 := compose lc2
-gc3 := compose lc3
-gc4 := compose lc4
-gc5 := compose lc5
-gc6 := compose lc6
 
+# validate liveness
+lc0 := compose lc0
+lc1 := compose lc1
+lc2 := compose lc2
+lc3 := compose lc3
+lc4 := compose lc4
+lc5 := compose lc5
+lc6 := compose lc6
+
+# mermaid representation
 mermaid trees[0]
 mermaid trees[1]
 mermaid trees[2]
@@ -30,3 +37,20 @@ mermaid trees[3]
 mermaid trees[4]
 mermaid trees[5]
 mermaid trees[6]
+
+
+# a fault occurs on device 2
+# reload process remove device 2
+
+simple := load example/simple
+
+seq := translate simple
+newTrees := traverse t.head seq
+
+# configure the control loops corresponding to state estimation trees
+newlc0 := configure newTrees[0] kb controller u
+newlc1 := configure newTrees[1] kb controller u
+
+# mermaid representation
+mermaid newTrees[0]
+mermaid newTrees[1]

@@ -64,15 +64,11 @@ func (v *BaseontologyVisitor) VisitInfo(ctx *InfoContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseontologyVisitor) VisitRender(ctx *RenderContext) interface{} {
+func (v *BaseontologyVisitor) VisitDomain(ctx *DomainContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseontologyVisitor) VisitParadigm(ctx *ParadigmContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseontologyVisitor) VisitParadigm_declaration(ctx *Paradigm_declarationContext) interface{} {
+func (v *BaseontologyVisitor) VisitDomain_declaration(ctx *Domain_declarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

@@ -50,14 +50,11 @@ type ontologyVisitor interface {
 	// Visit a parse tree produced by ontologyParser#info.
 	VisitInfo(ctx *InfoContext) interface{}
 
-	// Visit a parse tree produced by ontologyParser#render.
-	VisitRender(ctx *RenderContext) interface{}
+	// Visit a parse tree produced by ontologyParser#domain.
+	VisitDomain(ctx *DomainContext) interface{}
 
-	// Visit a parse tree produced by ontologyParser#paradigm.
-	VisitParadigm(ctx *ParadigmContext) interface{}
-
-	// Visit a parse tree produced by ontologyParser#paradigm_declaration.
-	VisitParadigm_declaration(ctx *Paradigm_declarationContext) interface{}
+	// Visit a parse tree produced by ontologyParser#domain_declaration.
+	VisitDomain_declaration(ctx *Domain_declarationContext) interface{}
 
 	// Visit a parse tree produced by ontologyParser#property.
 	VisitProperty(ctx *PropertyContext) interface{}

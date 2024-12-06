@@ -9,8 +9,8 @@ import "main/ast/util"
 
 type knowledge_base struct {
     baseNode
-    pdgmName string
-    pdgm *paradigm
+    domainName string
+    dmn *domain
     roles []irole
     estimateAgents map[string]*estimate
     senseAgents map[string]*sense
@@ -19,10 +19,10 @@ type knowledge_base struct {
     arg *arGraph
 }
 
-func newKnowledgeBase(pdgmName string, line int) (this *knowledge_base) {
+func newKnowledgeBase(domainName string, line int) (this *knowledge_base) {
     this = new(knowledge_base)
     this.init(line)
-    this.pdgmName = pdgmName
+    this.domainName = domainName
     this.roles = make([]irole, 0)
     this.estimateAgents = make(map[string]*estimate)
     this.senseAgents = make(map[string]*sense)
@@ -70,15 +70,15 @@ func (this *knowledge_base) add(r irole) {
 }
 
 func (this *knowledge_base) typeCheck(context *program, log util.ErrorLog) {
-    pdgm, ok := context.expressions[this.pdgmName]
+    dmn, ok := context.expressions[this.domainName]
     if ok == false {
-        error := fmt.Sprintf("Paradigm %v is not defined", this.pdgmName)
+        error := fmt.Sprintf("Domain %v is not defined", this.domainName)
         this.reportError(error, log)
         return
     }
-    this.pdgm, ok = pdgm.(*paradigm)
+    this.dmn, ok = dmn.(*domain)
     if ok == false {
-        error := fmt.Sprintf("Expression %v is not a paradigm", this.pdgmName)
+        error := fmt.Sprintf("Expression %v is not a domain", this.domainName)
         this.reportError(error, log)
         return
     }
@@ -114,13 +114,13 @@ func (this *knowledge_base) typeCheck(context *program, log util.ErrorLog) {
 }
 
 func (this *knowledge_base) execute(context *program) (expression, util.ErrorLog) {
-    _, ok := context.expressions[this.pdgmName]
+    _, ok := context.expressions[this.domainName]
     if ok == false {
-        expr, log := newLoad(this.pdgmName, 0).execute(context)
+        expr, log := newLoad(this.domainName, 0).execute(context)
         if log.HasErrors() {
             return nil, log
         }
-        context.expressions[this.pdgmName] = expr
+        context.expressions[this.domainName] = expr
     }
 
     var log util.ErrorLog = util.NewErrorLog()
@@ -132,7 +132,7 @@ func (this *knowledge_base) execute(context *program) (expression, util.ErrorLog
 func (this *knowledge_base) render() {}
 
 func (this *knowledge_base) prettyPrint(stream *util.Stream) {
-    stream.Println("knowledge base " + this.pdgmName + " {" )
+    stream.Println("knowledge base " + this.domainName + " {" )
     stream.Inc()
     for _, r := range this.roles {
         r.prettyPrint(stream)
@@ -152,7 +152,7 @@ func (this *knowledge_base) getModule() string {
 
 func (this *knowledge_base) info() string {
     s := "Type: knowledge base"
-    s += fmt.Sprintf(", Paradigm: %v", this.pdgmName)
+    s += fmt.Sprintf(", Domain: %v", this.domainName)
     s += fmt.Sprintf(", Estimator agents: %v", len(this.estimateAgents))
     s += fmt.Sprintf(", Sensor agents: %v", len(this.senseAgents))
     s += fmt.Sprintf(", Actuator agents: %v", len(this.actuateAgents))
@@ -210,7 +210,7 @@ func (this *role) setFilename(filename string) {
 }
 
 func (this *role) typeCheck(context *knowledge_base, log util.ErrorLog) {
-    this.sess.typeCheck(newSessionContext(context.pdgm), log)
+    this.sess.typeCheck(newSessionContext(context.dmn), log)
 }
 
 func (this *role) prettyPrint(stream *util.Stream) {
@@ -235,7 +235,7 @@ func newEstimate(class string, name string, sess session, line int) (this *estim
 }
 
 func (this *estimate) typeCheck(context *knowledge_base, log util.ErrorLog) {
-    _, ok := context.pdgm.models[this.class]
+    _, ok := context.dmn.models[this.class]
     if ok == false {
         error := fmt.Sprintf("Model %v is undefined", this.class)
         this.reportError(error, log)
@@ -264,7 +264,7 @@ func newSense(class string, name string, sess session, line int) (this *sense) {
 }
 
 func (this *sense) typeCheck(context *knowledge_base, log util.ErrorLog) {
-    _, ok := context.pdgm.properties[this.class]
+    _, ok := context.dmn.properties[this.class]
     if ok == false {
         error := fmt.Sprintf("Property %v is undefined", this.class)
         this.reportError(error, log)
@@ -292,7 +292,7 @@ func newControl(class string, name string, sess session, line int) (this *contro
 }
 
 func (this *control) typeCheck(context *knowledge_base, log util.ErrorLog) {
-    _, ok := context.pdgm.actuators[this.class]
+    _, ok := context.dmn.actuators[this.class]
     if ok == false {
         error := fmt.Sprintf("Actuator class %v is undefined", this.class)
         this.reportError(error, log)
@@ -320,7 +320,7 @@ func newActuate(class string, name string, sess session, line int) (this *actuat
 }
 
 func (this *actuate) typeCheck(context *knowledge_base, log util.ErrorLog) {
-    _, ok := context.pdgm.actuators[this.class]
+    _, ok := context.dmn.actuators[this.class]
     if ok == false {
         error := fmt.Sprintf("Actuator class %v is undefined", this.class)
         this.reportError(error, log)

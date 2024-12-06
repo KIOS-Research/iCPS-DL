@@ -21,8 +21,8 @@ func (this *ontologyVisitor) VisitProgram(ctx *parser.ProgramContext) []expressi
 }
 
 func (this *ontologyVisitor) VisitExpression(ctx *parser.ExpressionContext) expression {
-    if ctx.Paradigm() != nil {
-        return this.VisitParadigm(ctx.Paradigm().(*parser.ParadigmContext))
+    if ctx.Domain() != nil {
+        return this.VisitDomain(ctx.Domain().(*parser.DomainContext))
     } else if ctx.Process() != nil {
         return this.VisitProcess(ctx.Process().(*parser.ProcessContext))
     } else if ctx.Local_configuration() != nil {
@@ -53,8 +53,6 @@ func (this *ontologyVisitor) VisitExpression(ctx *parser.ExpressionContext) expr
         return this.VisitProject(ctx.Project().(*parser.ProjectContext))
     } else if ctx.Info() != nil {
         return this.VisitInfo(ctx.Info().(*parser.InfoContext))
-    } else if ctx.Render() != nil {
-        return this.VisitRender(ctx.Render().(*parser.RenderContext))
     } else if ctx.LSQ() != nil {
         line := ctx.INT().GetSymbol().GetLine()
         expr := this.VisitExpression(ctx.Expression().(*parser.ExpressionContext))
@@ -167,45 +165,39 @@ func (this *ontologyVisitor) VisitInfo(ctx *parser.InfoContext) *infoExpression 
     return newInfo(expr, line)
 }
 
-func (this *ontologyVisitor) VisitRender(ctx *parser.RenderContext) *renderExpression {
-    line := ctx.RENDER().GetSymbol().GetLine()
-    expr := this.VisitExpression(ctx.Expression().(*parser.ExpressionContext))
-    return newRender(expr, line)
-}
-
 /*****************
-  paradigm
+  domain
  ****************/
 
-func (this *ontologyVisitor) VisitParadigm(ctx *parser.ParadigmContext) *paradigm {
-    line := ctx.PARADIGM().GetSymbol().GetLine()
-    pdgm := newParadigm(line)
-    for _, decl := range ctx.AllParadigm_declaration() {
-        this.VisitParadigm_declaration(decl.(*parser.Paradigm_declarationContext), pdgm)
+func (this *ontologyVisitor) VisitDomain(ctx *parser.DomainContext) *domain {
+    line := ctx.DOMAIN().GetSymbol().GetLine()
+    dmn := newDomain(line)
+    for _, decl := range ctx.AllDomain_declaration() {
+        this.VisitDomain_declaration(decl.(*parser.Domain_declarationContext), dmn)
     }
-    return pdgm
+    return dmn
 }
 
-func (this *ontologyVisitor) VisitParadigm_declaration(ctx *parser.Paradigm_declarationContext, pdgm *paradigm) *paradigm {
+func (this *ontologyVisitor) VisitDomain_declaration(ctx *parser.Domain_declarationContext, dmn *domain) *domain {
     if ctx.Property() != nil {
-        this.VisitProperty(ctx.Property().(*parser.PropertyContext), pdgm)
+        this.VisitProperty(ctx.Property().(*parser.PropertyContext), dmn)
     } else if ctx.Model() != nil {
-        this.VisitModel(ctx.Model().(*parser.ModelContext), pdgm)
+        this.VisitModel(ctx.Model().(*parser.ModelContext), dmn)
     } else if ctx.Class() != nil {
-        this.VisitClass(ctx.Class().(*parser.ClassContext), pdgm)
+        this.VisitClass(ctx.Class().(*parser.ClassContext), dmn)
     } else if ctx.Translation() != nil {
-        this.VisitTranslation(ctx.Translation().(*parser.TranslationContext), pdgm)
+        this.VisitTranslation(ctx.Translation().(*parser.TranslationContext), dmn)
     }
-	  return pdgm
+	  return dmn
 }
 
-func (this *ontologyVisitor) VisitProperty(ctx *parser.PropertyContext, pdgm *paradigm) *paradigm {
+func (this *ontologyVisitor) VisitProperty(ctx *parser.PropertyContext, dmn *domain) *domain {
     for _, t := range ctx.AllType() {
         prop := this.VisitType(t.(*parser.TypeContext))
-        pdgm.add(prop)
+        dmn.add(prop)
     }
 
-  return pdgm
+  return dmn
 }
 
 func (this *ontologyVisitor) VisitType(ctx *parser.TypeContext) imodel {
@@ -228,16 +220,16 @@ func (this *ontologyVisitor) VisitType(ctx *parser.TypeContext) imodel {
 	  return nil
 }
 
-func (this *ontologyVisitor) VisitModel(ctx *parser.ModelContext, pdgm *paradigm) *paradigm {
+func (this *ontologyVisitor) VisitModel(ctx *parser.ModelContext, dmn *domain) *domain {
     for _, id := range ctx.AllID() {
         line := id.GetSymbol().GetLine()
         mdl := newModel(id.GetText(), line)
-        pdgm.add(mdl)
+        dmn.add(mdl)
     }
-    return pdgm
+    return dmn
 }
 
-func (this *ontologyVisitor) VisitClass(ctx *parser.ClassContext, pdgm *paradigm) *paradigm {
+func (this *ontologyVisitor) VisitClass(ctx *parser.ClassContext, dmn *domain) *domain {
     name := ctx.ID(0).GetText()
     nodes := make([]string, 0)
     for i := 1; i < len(ctx.AllID()); i++ {
@@ -248,7 +240,7 @@ func (this *ontologyVisitor) VisitClass(ctx *parser.ClassContext, pdgm *paradigm
         c := this.VisitInternal_edge(ie.(*parser.Internal_edgeContext))
         internalEdges = append(internalEdges, c)
     }
-    var decl paradigmDecl = nil
+    var decl domainDecl = nil
     if ctx.PHYSICAL() != nil {
         line := ctx.PHYSICAL().GetSymbol().GetLine()
         decl = newPhysical(name, nodes, internalEdges, line)
@@ -256,8 +248,8 @@ func (this *ontologyVisitor) VisitClass(ctx *parser.ClassContext, pdgm *paradigm
         line := ctx.ACTUATOR().GetSymbol().GetLine()
         decl = newActuator(name, nodes, internalEdges, line)
     }
-    pdgm.add(decl)
-    return pdgm
+    dmn.add(decl)
+    return dmn
 }
 
 func (this *ontologyVisitor) VisitInternal_edge(ctx *parser.Internal_edgeContext) *internalEdge {
@@ -267,7 +259,7 @@ func (this *ontologyVisitor) VisitInternal_edge(ctx *parser.Internal_edgeContext
     return newInternalEdge(node1, node2, line)
 }
 
-func (this *ontologyVisitor) VisitTranslation(ctx *parser.TranslationContext, pdgm *paradigm) *paradigm {
+func (this *ontologyVisitor) VisitTranslation(ctx *parser.TranslationContext, dmn *domain) *domain {
     line := ctx.TRANSLATION().GetSymbol().GetLine()
     node1 := ctx.ID(0).GetText()
     node2 := ctx.ID(1).GetText()
@@ -277,8 +269,8 @@ func (this *ontologyVisitor) VisitTranslation(ctx *parser.TranslationContext, pd
         targets = append(targets, ac)
     }
     trans := newTranslation(node1, node2, targets, line)
-    pdgm.add(trans)
-    return pdgm
+    dmn.add(trans)
+    return dmn
 }
 
 func (this *ontologyVisitor) VisitArg_connection(ctx *parser.Arg_connectionContext) *externalEdge {

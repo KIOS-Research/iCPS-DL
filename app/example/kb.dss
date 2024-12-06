@@ -2,12 +2,11 @@ knowledge base wdn {
     estimate junction_mass using
           jmass = loop. producer1? flow. producer2? flow. consumer1! flow. loop
 
-    estimate junction2way_mass using
-          jmass2way = loop. producer1? flow. consumer1! flow. loop
+    estimate demand_mass using
+          dmass = loop. producer1? flow. consumer1! flow. loop
 
     estimate tank_mass using
-          tmass = #supervisor? tank_shape. supervisor?volume.
-                  loop. producer1? flow. producer2? flow. consumer1!head. loop
+          tmass = loop. producer1? flow. producer2? flow. consumer1!head. loop
 
     estimate link_energy using
           lenergy = #supervisor? link_shape.

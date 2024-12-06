@@ -12,7 +12,6 @@ type expression interface {
     reportError(string, util.ErrorLog)
     execute(*program) (expression, util.ErrorLog)
     prettyPrint(*util.Stream)
-    render()
     getType() string
     getModule() string
     info() string
@@ -49,8 +48,6 @@ func (this *expressionImpl) prettyPrint(stream *util.Stream) {
 func (this *expressionImpl) reportCommandLineError(err string, log util.ErrorLog) {
     log.Add(util.NewCommandLineError(err, this.getFilename(), this.getLine()))
 }
-
-func (this *expressionImpl) render() {}
 
 func (this *expressionImpl) getType() string {
     return this.executed.getType()
@@ -92,8 +89,6 @@ func (this *loadExpression) execute(context *program) (expression, util.ErrorLog
     }
     return context.executeStack(expressions)
 }
-
-func (this *loadExpression) render() {}
 
 func (this *loadExpression) prettyPrint(stream *util.Stream) {
     stream.Print("load " + this.id)
@@ -148,99 +143,6 @@ func (this *showExpression) prettyPrint(stream *util.Stream) {
     stream.Print("show ")
     this.expressionImpl.prettyPrint(stream)
 }
-
-/*****************************************************************************
- * render
- *****************************************************************************/
-
-type renderExpression struct {
-    expressionImpl
-}
-
-func newRender(expr expression, line int) (this *renderExpression) {
-    this = new(renderExpression)
-    this.newExpression(expr, line)
-    return
-}
-
-func (this *renderExpression) execute(context *program) (expression, util.ErrorLog) {
-    _, log := this.expressionImpl.execute(context)
-    if log.HasErrors() {
-        return nil, log
-    }
-    this.executed.render()
-    //log.Add(util.NewExecutionException("Unsupported command: render."))
-    return this.executed, log
-}
-
-func (this *renderExpression) prettyPrint(stream *util.Stream) {
-    stream.Print("render ")
-    this.expressionImpl.prettyPrint(stream)
-}
-
-/*****************************************************************************
- * mermaid
- *****************************************************************************/
-
-/*type mermaidPrinter interface {
-   mermaid(*util.Stream)
-}
-
-type mermaidExpression struct {
-    expressionImpl
-}
-
-func newMermaid(expr expression, line int) (this *mermaidExpression) {
-    this = new(mermaidExpression)
-    this.newExpression(expr, line)
-    return
-}
-
-func (this *mermaidExpression) execute(context *program) (expression, util.ErrorLog) {
-    executed, log := this.expr.execute(context)
-    if log.HasErrors() {
-        return nil, log
-    }
-    switch exec := executed.(type) {
-        case *process:
-            this.createDiagram(exec, log)
-        case *arGraph:
-            this.createDiagram(exec, log)
-        case *arTree:
-            this.createDiagram(exec, log)
-        case *forest:
-            for _, tree := range exec.trees {
-                this.createDiagram(tree, log)
-            }
-        default:
-            error := fmt.Sprintf("%v %v is neither a process nor an analytical redundancy graph.", util.CapitaliseFirst(executed.getType()), this.getModule())
-            this.reportCommandLineError(error, log)
-            return nil, log
-    }
-    return executed, log
-}
-
-func (this *mermaidExpression) createDiagram(mmd mermaidPrinter, log util.ErrorLog) {
-    stream := util.NewStream()
-    mmd.mermaid(stream)
-    filename, err := util.CreateMermaidHTML( stream.ToString() )
-    if err != nil {
-        error := fmt.Sprintf("Failed to create mermaid file: %s.", err)
-        log.Add(util.NewSystemError(error))
-        return
-    }
-
-    err = util.OpenBrowser(filename)
-    if err != nil {
-        log.Add(util.NewSystemError(err.Error()))
-    }
-    return
-}
-
-func (this *mermaidExpression) prettyPrint(stream *util.Stream) {
-    stream.Print("mermaid ")
-    this.expressionImpl.prettyPrint(stream)
-}*/
 
 /*****************************************************************************
  * assignment
@@ -367,7 +269,7 @@ func (this *traverseExpression) execute(context *program) (expression, util.Erro
     }
     arg, ok := executed.(*arGraph)
     if ok == false {
-        error := fmt.Sprintf("%v %v is not an analytical redundancy graph.", util.CapitaliseFirst(executed.getType()), this.getModule())
+        error := fmt.Sprintf("%v %v is not a state estimation graph.", util.CapitaliseFirst(executed.getType()), this.getModule())
         this.reportCommandLineError(error, log)
         return nil, log
     }
@@ -411,7 +313,7 @@ func (this *configureExpression) execute(context *program) (expression, util.Err
     }
     art, ok := executed.(*arTree)
     if ok == false {
-        error := fmt.Sprintf("%v %v is not an analytical redundancy tree.", util.CapitaliseFirst(executed.getType()), this.getModule())
+        error := fmt.Sprintf("%v %v is not a state estimation redundancy tree.", util.CapitaliseFirst(executed.getType()), this.getModule())
         this.reportCommandLineError(error, log)
         return nil, log
     }
@@ -612,7 +514,7 @@ func (this *accessExpression) execute(context *program) (expression, util.ErrorL
         return nil, log
     }
     if len(forest.trees) <= this.index {
-        error := fmt.Sprintf("Index out of bounds. Analytical redundancy forest %v has %v trees.", this.getModule()/*this.id*/, len(forest.trees))
+        error := fmt.Sprintf("Index out of bounds. State estimation forest %v has %v trees.", this.getModule()/*this.id*/, len(forest.trees))
         this.reportCommandLineError(error, log)
         return nil, log
     }
@@ -648,8 +550,6 @@ func (this *exitExpression) execute(context *program) (expression, util.ErrorLog
     context.quit = true
     return this, util.NewErrorLog()
 }
-
-func (this *exitExpression) render() {}
 
 func (this *exitExpression) prettyPrint(stream *util.Stream) {
     stream.Print("exit")

@@ -137,8 +137,8 @@ func (this *pass) project(lc *local, log util.ErrorLog) *local {
 }
 
 func (this *pass) typeCheck(context *sessionContext, log util.ErrorLog) {
-    if context.pdgm != nil {
-        this.tdef.typeCheck(context.pdgm, log)
+    if context.dmn != nil {
+        this.tdef.typeCheck(context.dmn, log)
     }
     this.cont.typeCheck(context, log)
 }
@@ -449,8 +449,8 @@ func (this *choice) project(lc *local, log util.ErrorLog) *local {
 }
 
 func (this *choice) typeCheck(context *sessionContext, log util.ErrorLog) {
-    if context.pdgm != nil {
-        t, ok1 := context.pdgm.properties[this.enum]
+    if context.dmn != nil {
+        t, ok1 := context.dmn.properties[this.enum]
         ok2 := false
         var enum *enumProperty = nil
         if ok1 == true {
@@ -599,13 +599,13 @@ func (this *branch) prettyPrint(stream *util.Stream) {
  ******************************************************************************/
 
 type sessionContext struct {
-    pdgm *paradigm
+    dmn *domain
     varMap map[string]*loop
 }
 
-func newSessionContext(pdgm *paradigm) (this *sessionContext) {
+func newSessionContext(dmn *domain) (this *sessionContext) {
     this = new(sessionContext)
-    this.pdgm = pdgm
+    this.dmn = dmn
     this.varMap = make(map[string]*loop)
     return
 }

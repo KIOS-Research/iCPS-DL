@@ -8,7 +8,7 @@ exit            :   EXIT
                 |   QUIT
                 ;
 
-expression      :   paradigm
+expression      :   domain
                 |   process
                 |   local_configuration
                 |   global_configuration
@@ -24,7 +24,6 @@ expression      :   paradigm
                 |   compose
                 |   project
                 |   info
-                |   render
                 |   expression LSQ INT RSQ
                 |   ID
                 |   LPAR expression RPAR
@@ -64,13 +63,10 @@ project         :   PROJECT expression
 info            :   INFO expression?
                 ;
 
-render          :   RENDER expression
+domain          :    DOMAIN LBRA domain_declaration* RBRA
                 ;
 
-paradigm        :    PARADIGM LBRA paradigm_declaration* RBRA
-                ;
-
-paradigm_declaration
+domain_declaration
                 :   property
                 |   class
                 |   model
@@ -197,11 +193,10 @@ CONFIGURE:          'configure';
 COMPOSE:            'compose';
 PROJECT:            'project';
 INFO:               'info';
-RENDER:             'render';
 EXIT:               'exit';
 QUIT:               'quit';
 
-PARADIGM:           'paradigm';
+DOMAIN:             'domain';
 PROCESS:            'process';
 KNOWLEDGE:          'knowledge';
 BASE:               'base';

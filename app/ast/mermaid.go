@@ -108,7 +108,7 @@ func (this *mermaidExpression) execute(context *program) (expression, util.Error
             //    this.createDiagram(tree, log)
             //}
         default:
-            error := fmt.Sprintf("%v %v is neither a process nor an analytical redundancy graph.", util.CapitaliseFirst(executed.getType()), this.getModule())
+            error := fmt.Sprintf("%v %v is neither a process nor a state estimation graph.", util.CapitaliseFirst(executed.getType()), this.getModule())
             this.reportCommandLineError(error, log)
             return nil, log
     }

@@ -4,15 +4,15 @@ import "fmt"
 import "main/ast/util"
 
 /***********************
- * analytical reduncy graph node
+ * state estimation graph node
  ***********************/
 
-type iArgNode interface {
-    clone() iArgNode
-    getParent() iArgNode
-    getChild() iArgNode
-    addNeighbour(iArgNode)
-    addReverse(iArgNode)
+type isegNode interface {
+    clone() isegNode
+    getParent() isegNode
+    getChild() isegNode
+    addNeighbour(isegNode)
+    addReverse(isegNode)
     configure(*knowledge_base, *local, string, util.ErrorLog) string
     prettyPrint(stream *util.Stream)
     mermaid(stream *util.Stream)
@@ -21,24 +21,24 @@ type iArgNode interface {
 
 type argNode struct {
     component icomponent
-    neighbours map[string]iArgNode
-    reverse map[string]iArgNode
+    neighbours map[string]isegNode
+    reverse map[string]isegNode
 }
 
 func (this *argNode) newArgNode(component icomponent) {
     this.component = component
-    this.neighbours = make(map[string]iArgNode)
-    this.reverse = make(map[string]iArgNode)
+    this.neighbours = make(map[string]isegNode)
+    this.reverse = make(map[string]isegNode)
 }
 
-func (this *argNode) getParent() iArgNode {
+func (this *argNode) getParent() isegNode {
     for _, next := range this.neighbours {
         return next
     }
     return nil
 }
 
-func (this *argNode) getChild() iArgNode {
+func (this *argNode) getChild() isegNode {
     for _, next := range this.reverse {
         return next
     }
@@ -67,16 +67,16 @@ func newSensorNode(component icomponent) (this *sensorNode) {
     return
 }
 
-func (this *sensorNode) clone() iArgNode {
+func (this *sensorNode) clone() isegNode {
     return newSensorNode(this.component)
 }
 
-func (this *sensorNode) addNeighbour(n iArgNode) {
+func (this *sensorNode) addNeighbour(n isegNode) {
     this.neighbours[n.toString()] = n
     n.addReverse(this)
 }
 
-func (this *sensorNode) addReverse(n iArgNode) {
+func (this *sensorNode) addReverse(n isegNode) {
     this.reverse[n.toString()] = n
 }
 
@@ -108,7 +108,7 @@ func (this *sensorNode) mermaid(stream *util.Stream) {
 }
 
 /***********************
- * analytical redundancy graph component node
+ * state estimation graph component node
  ***********************/
 
 type componentNode struct {
@@ -123,16 +123,16 @@ func newComponentNode(component icomponent, model imodel) (this *componentNode) 
     return
 }
 
-func (this *componentNode) clone() iArgNode {
+func (this *componentNode) clone() isegNode {
     return newComponentNode(this.component, this.model)
 }
 
-func (this *componentNode) addNeighbour(n iArgNode) {
+func (this *componentNode) addNeighbour(n isegNode) {
     this.neighbours[n.toString()] = n
     n.addReverse(this)
 }
 
-func (this *componentNode) addReverse(n iArgNode) {
+func (this *componentNode) addReverse(n isegNode) {
     this.reverse[n.toString()] = n
 }
 
@@ -195,14 +195,14 @@ func (this *componentNode) mermaid(stream *util.Stream) {
 }
 
 /******************************************************************************
- * analytical redundancy graph edge
+ * state estimation graph edge
  ******************************************************************************/
 
 type argEdge struct {
-    node1, node2 iArgNode
+    node1, node2 isegNode
 }
 
-func newArgEdge(node1 iArgNode, node2 iArgNode) (this *argEdge) {
+func newArgEdge(node1 isegNode, node2 isegNode) (this *argEdge) {
     this = new(argEdge)
     this.node1 = node1
     this.node2 = node2
@@ -230,32 +230,32 @@ func (this *argEdge) mermaid(stream *util.Stream) {
 }
 
 /******************************************************************************
- * analytical redundancy graph
+ * state estimation graph
  ******************************************************************************/
 
 type arGraph struct {
     baseNode
     proc *process
-    nodes map[string]iArgNode
+    nodes map[string]isegNode
     edges map[string]*argEdge
 }
 
 func newArGraph(proc *process) (this *arGraph) {
     this = new(arGraph)
     this.proc = proc
-    this.nodes = make(map[string]iArgNode)
+    this.nodes = make(map[string]isegNode)
     this.edges = make(map[string]*argEdge)
     return
 }
 
-func (this *arGraph) addNode(node iArgNode) {
+func (this *arGraph) addNode(node isegNode) {
     _, ok := this.nodes[node.toString()]
     if ok == false {
         this.nodes[node.toString()] = node
     }
 }
 
-func (this *arGraph) addEdge(n1 iArgNode, n2 iArgNode) {
+func (this *arGraph) addEdge(n1 isegNode, n2 isegNode) {
     edge := newArgEdge(n1, n2)
     this.edges[edge.toString()] = edge
     node1 := this.nodes[n1.toString()]
@@ -366,7 +366,7 @@ func (this *arGraph) traverseModel(tree *arTree, c *componentNode, rootName stri
     return forest
 }
 
-func (this *arGraph) render() {}
+//func (this *arGraph) render() {}
 
 func (this *arGraph) mermaid(stream *util.Stream) {
     stream.Println("graph TD;")
@@ -380,7 +380,7 @@ func (this *arGraph) mermaid(stream *util.Stream) {
 }
 
 func (this *arGraph) prettyPrint(stream *util.Stream) {
-    stream.Println("Analytical Redundancy Graph {")
+    stream.Println("State estimation Graph {")
     stream.Inc()
     stream.Println("Nodes:")
     stream.Inc()
@@ -400,7 +400,7 @@ func (this *arGraph) prettyPrint(stream *util.Stream) {
 }
 
 func (this *arGraph) getType() string {
-    return "analytical redundancy graph"
+    return "state estimation graph"
 }
 
 func (this *arGraph) getModule() string {
@@ -408,26 +408,26 @@ func (this *arGraph) getModule() string {
 }
 
 func (this *arGraph) info() string {
-    s := "Type: analytical redundancy graph"
+    s := "Type: state estimation graph"
     s += fmt.Sprintf(", Nodes: %v", len(this.nodes))
     s += fmt.Sprintf(", Edges: %v.", len(this.edges))
     return s
 }
 
 /******************************************************************************
- * analytical redundancy tree
+ * state estimation tree
  ******************************************************************************/
 type arTree struct {
    arGraph
-   root iArgNode
+   root isegNode
    graph *arGraph
 }
 
-func newArTree(root iArgNode, proc *process) (this *arTree) {
+func newArTree(root isegNode, proc *process) (this *arTree) {
    this = new(arTree)
    this.proc = proc
    this.root = root.clone()
-   this.nodes = make(map[string]iArgNode)
+   this.nodes = make(map[string]isegNode)
    this.edges = make(map[string]*argEdge)
    this.addNode(this.root)
    return
@@ -486,11 +486,11 @@ func (this *arTree) configure(kb *knowledge_base, controller string, actuator st
 }
 
 func (this *arTree) getType() string {
-    return "analytical redundancy tree"
+    return "state estimation tree"
 }
 
 func (this *arTree) info() string {
-    s := "Type: analytical redundancy tree"
+    s := "Type: state estimation tree"
     s += ", Root: " + this.root.toString()
     s += fmt.Sprintf(", Nodes: %v", len(this.nodes))
     s += fmt.Sprintf(", Edges: %v.", len(this.edges))
@@ -547,7 +547,7 @@ func (this *forest) prettyPrint(stream *util.Stream) {
 }
 
 func (this *forest) getType() string {
-    return "analytical redundancy forest"
+    return "state estimation forest"
 }
 
 func (this *forest) getModule() string {
@@ -555,7 +555,7 @@ func (this *forest) getModule() string {
 }
 
 func (this *forest) info() string {
-    s := "Type: analytical redundancy forest"
+    s := "Type: state estimation forest"
     s += fmt.Sprintf(", Trees: %v.", len(this.trees))
     return s
 }

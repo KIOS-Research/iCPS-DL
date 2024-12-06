@@ -1,0 +1,53 @@
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Mermaid Diagram</title>
+            <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+            <script>mermaid.initialize({startOnLoad:true});</script>
+        </head>
+        <body>
+            <div class="mermaid">   graph TD;
+   	s5((s5))--->p1.flow(p1.flow);
+   	p2.link_shape(p2.link_shape)--->p2.link_energy[p2.link_energy];
+   	s6((s6))--->t.head(t.head);
+   	s4((s4))--->j2.flow(j2.flow);
+   	j2.flow(j2.flow)--->j2.junction_mass[j2.junction_mass];
+   	j2.junction_mass[j2.junction_mass]--->j2.flow(j2.flow);
+   	j2.junction_mass[j2.junction_mass]--->u.flow(u.flow);
+   	s7((s7))--->p2.flow(p2.flow);
+   	j1.junction2way_mass[j1.junction2way_mass]--->j1.flow(j1.flow);
+   	t.tank_shape(t.tank_shape)--->t.tank_mass[t.tank_mass];
+   	p1.link_shape(p1.link_shape)--->p1.link_energy[p1.link_energy];
+   	j3.flow(j3.flow)--->j3.junction2way_mass[j3.junction2way_mass];
+   	u.flow(u.flow)--->j2.junction_mass[j2.junction_mass];
+   	p1.flow(p1.flow)--->j2.junction_mass[j2.junction_mass];
+   	s1((s1))--->j1.head(j1.head);
+   	u.flow(u.flow)--->j1.junction2way_mass[j1.junction2way_mass];
+   	j3.junction2way_mass[j3.junction2way_mass]--->j3.flow(j3.flow);
+   	j3.head(j3.head)--->p2.link_energy[p2.link_energy];
+   	j2.head(j2.head)--->p1.link_energy[p1.link_energy];
+   	j1.junction2way_mass[j1.junction2way_mass]--->u.flow(u.flow);
+   	j1.head(j1.head)--->u.link_energy[u.link_energy];
+   	s3((s3))--->j2.head(j2.head);
+   	p1.flow(p1.flow)--->t.tank_mass[t.tank_mass];
+   	t.head(t.head)--->p2.link_energy[p2.link_energy];
+   	p2.flow(p2.flow)--->j3.junction2way_mass[j3.junction2way_mass];
+   	j2.head(j2.head)--->u.link_energy[u.link_energy];
+   	j1.flow(j1.flow)--->j1.junction2way_mass[j1.junction2way_mass];
+   	u.link_energy[u.link_energy]--->u.flow(u.flow);
+   	t.tank_mass[t.tank_mass]--->t.head(t.head);
+   	p2.link_energy[p2.link_energy]--->p2.flow(p2.flow);
+   	s8((s8))--->j3.flow(j3.flow);
+   	u.link_shape(u.link_shape)--->u.link_energy[u.link_energy];
+   	p2.flow(p2.flow)--->t.tank_mass[t.tank_mass];
+   	t.head(t.head)--->p1.link_energy[p1.link_energy];
+   	j3.junction2way_mass[j3.junction2way_mass]--->p2.flow(p2.flow);
+   	p1.link_energy[p1.link_energy]--->p1.flow(p1.flow);
+   	s2((s2))--->u.flow(u.flow);
+   	j2.junction_mass[j2.junction_mass]--->p1.flow(p1.flow);
+
+            </div>
+        </body>
+    </html>
+    

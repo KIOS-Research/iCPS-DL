@@ -1,15 +1,15 @@
-package ast
+package iCPSDL
 
 import "fmt"
-import "main/ast/util"
+import "autonomic/iCPSDL/util"
 
 /*******************************************************************************
- * paradigm
+ * domain
  ******************************************************************************/
 
-type paradigm struct {
+type domain struct {
     baseNode
-    decls []paradigmDecl
+    decls []domainDecl
     properties map[string]imodel
     models map[string]*model
     physicals map[string]*physical
@@ -17,10 +17,10 @@ type paradigm struct {
     translations []*translation
 }
 
-func newParadigm(line int) (this *paradigm) {
-    this = new(paradigm)
+func newDomain(line int) (this *domain) {
+    this = new(domain)
     this.init(line)
-    this.decls = make([]paradigmDecl, 0)
+    this.decls = make([]domainDecl, 0)
     this.properties = make(map[string]imodel)
     this.physicals = make(map[string]*physical)
     this.actuators = make(map[string]*actuator)
@@ -29,18 +29,18 @@ func newParadigm(line int) (this *paradigm) {
     return
 }
 
-func (this *paradigm) setFilename(filename string) {
+func (this *domain) setFilename(filename string) {
     this.baseNode.setFilename(filename)
     for _, decl := range this.decls {
         decl.setFilename(filename)
     }
 }
 
-func (this *paradigm) add(decl paradigmDecl) {
+func (this *domain) add(decl domainDecl) {
     this.decls = append(this.decls, decl)
 }
 
-func (this *paradigm) getClass(name string) (*class, bool) {
+func (this *domain) getClass(name string) (*class, bool) {
     phy, ok1 := this.physicals[name]
     if ok1 == true {
         return &phy.class, true
@@ -52,7 +52,7 @@ func (this *paradigm) getClass(name string) (*class, bool) {
     return nil, false
 }
 
-func (this *paradigm) typeCheck(log util.ErrorLog) {
+func (this *domain) typeCheck(log util.ErrorLog) {
     size := len(this.decls)
     for i := 0; i < size; i++ {
         for j := i + 1; j < size; j++ {
@@ -86,16 +86,16 @@ func (this *paradigm) typeCheck(log util.ErrorLog) {
     return
 }
 
-func (this *paradigm) execute(context *program) (expression, util.ErrorLog) {
+func (this *domain) execute(context *iCPSDL) (expression, util.ErrorLog) {
     log := util.NewErrorLog()
     this.typeCheck(log)
     return this, log
 }
 
-func (this *paradigm) render() {}
+func (this *domain) render() {}
 
-func (this *paradigm) prettyPrint(stream *util.Stream) {
-    stream.Println("paradigm {")
+func (this *domain) prettyPrint(stream *util.Stream) {
+    stream.Println("domain {")
     stream.Inc()
     for _, v := range this.decls {
         v.prettyPrint(stream)
@@ -105,16 +105,16 @@ func (this *paradigm) prettyPrint(stream *util.Stream) {
     stream.Println("}")
 }
 
-func (this *paradigm) getType() string {
-    return "paradigm"
+func (this *domain) getType() string {
+    return "domain"
 }
 
-func (this *paradigm) getModule() string {
+func (this *domain) getModule() string {
     return "*"
 }
 
-func (this *paradigm) info() string {
-    s := "Type: paradigm"
+func (this *domain) info() string {
+    s := "Type: domain"
     s += fmt.Sprintf(", Property classes: %v", len(this.properties))
     s += fmt.Sprintf(", Model classes: %v", len(this.models))
     s += fmt.Sprintf(", Physical component classes: %v", len(this.physicals))
@@ -124,21 +124,21 @@ func (this *paradigm) info() string {
 }
 
 /*******************
- * paradigmDecl
+ * domainDecl
  *******************/
 
-type paradigmDecl interface {
+type domainDecl interface {
     getName() string
     setFilename(string)
     getFilename() string
     getLine() int
     reportError(string, util.ErrorLog)
-    typeCheck(*paradigm, util.ErrorLog)
+    typeCheck(*domain, util.ErrorLog)
     prettyPrint(*util.Stream)
 }
 
 /*******************
- * maodel + property
+ * model + property
  *******************/
 type imodel interface {
     getName() string
@@ -146,7 +146,7 @@ type imodel interface {
     getFilename() string
     getLine() int
     reportError(string, util.ErrorLog)
-    typeCheck(*paradigm, util.ErrorLog)
+    typeCheck(*domain, util.ErrorLog)
     prettyPrint(*util.Stream)
     toString() string
     mermaid(string) string
@@ -169,7 +169,7 @@ func (this *modelImpl) getName() string {
     return this.name
 }
 
-func (this *modelImpl) typeCheck(pdgm *paradigm, log util.ErrorLog) {
+func (this *modelImpl) typeCheck(dmn *domain, log util.ErrorLog) {
 }
 
 func (this *modelImpl) prettyPrint(stream *util.Stream) {
@@ -306,10 +306,10 @@ func (this *class) hasNode(n string) bool {
     return false
 }
 
-func (this *class) typeCheck(pdgm *paradigm, log util.ErrorLog) {
+func (this *class) typeCheck(dmn *domain, log util.ErrorLog) {
     for _, n := range this.nodes {
-        prop, ok1 := pdgm.properties[n]
-        mod, ok2 := pdgm.models[n]
+        prop, ok1 := dmn.properties[n]
+        mod, ok2 := dmn.models[n]
         if ok1 == true {
             this.nodeMap[n] = prop
         } else if ok2 == true {
@@ -551,15 +551,15 @@ func (this *translation) setFilename(filename string) {
     }
 }
 
-func (this *translation) typeCheck(pdgm *paradigm, log util.ErrorLog) {
+func (this *translation) typeCheck(dmn *domain, log util.ErrorLog) {
     ok := false
-    this.class1, ok = pdgm.getClass(this.node1)
+    this.class1, ok = dmn.getClass(this.node1)
     if ok == false {
       error := fmt.Sprintf("Class %v is undefined.", this.node1)
       this.reportError(error, log)
     }
 
-    this.class2, ok = pdgm.getClass(this.node2)
+    this.class2, ok = dmn.getClass(this.node2)
     if ok == false {
       error := fmt.Sprintf("Class %v is undefined.", this.node2)
       this.reportError(error, log)

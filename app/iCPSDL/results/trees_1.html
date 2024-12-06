@@ -1,0 +1,32 @@
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Mermaid Diagram</title>
+            <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+            <script>mermaid.initialize({startOnLoad:true});</script>
+        </head>
+        <body>
+            <div class="mermaid">   graph TD;
+   	p1.flow(p1.flow)--->t.tank_mass[t.tank_mass];
+   	u.link_shape(u.link_shape)--->u.link_energy[u.link_energy];
+   	u.flow(u.flow)--->j2.junction_mass[j2.junction_mass];
+   	s4((s4))--->j2.flow(j2.flow);
+   	j3.junction2way_mass[j3.junction2way_mass]--->p2.flow(p2.flow);
+   	s1((s1))--->j1.head(j1.head);
+   	t.tank_mass[t.tank_mass]--->t.head(t.head);
+   	s8((s8))--->j3.flow(j3.flow);
+   	s3((s3))--->j2.head(j2.head);
+   	j3.flow(j3.flow)--->j3.junction2way_mass[j3.junction2way_mass];
+   	u.link_energy[u.link_energy]--->u.flow(u.flow);
+   	j1.head(j1.head)--->u.link_energy[u.link_energy];
+   	j2.flow(j2.flow)--->j2.junction_mass[j2.junction_mass];
+   	p2.flow(p2.flow)--->t.tank_mass[t.tank_mass];
+   	j2.junction_mass[j2.junction_mass]--->p1.flow(p1.flow);
+   	j2.head(j2.head)--->u.link_energy[u.link_energy];
+   	t.tank_shape(t.tank_shape)--->t.tank_mass[t.tank_mass];
+
+            </div>
+        </body>
+    </html>
+    

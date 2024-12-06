@@ -10,9 +10,9 @@ import "main/ast/util"
 
 type process struct {
     baseNode
-    pdgmName string
+    domainName string
     decls []processDecl
-    pdgm *paradigm
+    dmn *domain
     devices map[string]*hardware
     physicals map[string]*physicalComp
     actuators map[string]*actuatorComp
@@ -21,10 +21,10 @@ type process struct {
     arg *arGraph
 }
 
-func newProcess(pdgmName string, line int) (this *process) {
+func newProcess(domainName string, line int) (this *process) {
     this = new(process)
     this.init(line)
-    this.pdgmName = pdgmName
+    this.domainName = domainName
     this.decls = make([]processDecl, 0)
     this.devices = make(map[string]*hardware)
     this.physicals = make(map[string]*physicalComp)
@@ -71,15 +71,15 @@ func (this *process) getComponentOrSensor(name string) (icomponent, bool) {
 }
 
 func (this *process) typeCheck(context *program, log util.ErrorLog) {
-    pdgm, ok := context.expressions[this.pdgmName]
+    dmn, ok := context.expressions[this.domainName]
     if ok == false {
-        error := fmt.Sprintf("Paradigm %v is not defined", this.pdgmName)
+        error := fmt.Sprintf("Domain %v is not defined", this.domainName)
         this.reportError(error, log)
         return
     }
-    this.pdgm, ok = pdgm.(*paradigm)
+    this.dmn, ok = dmn.(*domain)
     if ok == false {
-        error := fmt.Sprintf("Expression %v is not a paradigm", this.pdgmName)
+        error := fmt.Sprintf("Expression %v is not a domain", this.domainName)
         this.reportError(error, log)
         return
     }
@@ -159,7 +159,7 @@ func (this *process) translate() *arGraph {
                     this.arg.addEdge(e1, e2)
                 }
                 //todo: if no trans is found then error
-                for _, trans := range this.pdgm.translations {
+                for _, trans := range this.dmn.translations {
                     if conn.component1.getClass().name == trans.node1  && conn.component2.getClass().name == trans.node2 {
                         for _, ee := range trans.targets {
                             var c1, c2 icomponent
@@ -183,13 +183,13 @@ func (this *process) translate() *arGraph {
 }
 
 func (this *process) execute(context *program) (expression, util.ErrorLog) {
-    _, ok := context.expressions[this.pdgmName]
+    _, ok := context.expressions[this.domainName]
     if ok == false {
-        expr, log := newLoad(this.pdgmName, 0).execute(context)
+        expr, log := newLoad(this.domainName, 0).execute(context)
         if log.HasErrors() {
             return nil, log
         }
-        context.expressions[this.pdgmName] = expr
+        context.expressions[this.domainName] = expr
     }
 
     var log util.ErrorLog = util.NewErrorLog()
@@ -201,7 +201,7 @@ func (this *process) execute(context *program) (expression, util.ErrorLog) {
 func (this *process) render() {}
 
 func (this *process) prettyPrint(stream *util.Stream) {
-    stream.Println("process " + this.pdgmName + " {" )
+    stream.Println("process " + this.domainName + " {" )
     stream.Inc()
     for _, v := range this.decls {
         _, ok := v.(*connection)
@@ -233,7 +233,7 @@ func (this *process) getModule() string {
 
 func (this *process) info() string {
     s := "Type: process"
-    s += fmt.Sprintf(", Paradigm: %v", this.pdgmName)
+    s += fmt.Sprintf(", Domain: %v", this.domainName)
     s += fmt.Sprintf(", Devices: %v", len(this.devices))
     s += fmt.Sprintf(", Physical components: %v", len(this.physicals))
     s += fmt.Sprintf(", Actuators: %v", len(this.actuators))
@@ -243,7 +243,7 @@ func (this *process) info() string {
 }
 
 /*******************
- * paradigmDecl
+ * processDecl
  *******************/
 
 type processDecl interface {
@@ -368,10 +368,11 @@ func newPhysicalComp(name string, class string, line int) (this *physicalComp) {
 }
 
 func (this *physicalComp) typeCheck(context *process, log util.ErrorLog) {
-    phy, ok := context.pdgm.physicals[this.className]
+    phy, ok := context.dmn.physicals[this.className]
     if ok == false {
         error := fmt.Sprintf("Name %v is not defined as a physical component class", this.className)
         this.reportError(error, log)
+        return
     }
     this.class = &phy.class
     this.component.typeCheck(context, log)
@@ -401,10 +402,11 @@ func newActuatorComp(name string, device string, class string, line int) (this *
 }
 
 func (this *actuatorComp) typeCheck(context *process, log util.ErrorLog) {
-    act, ok := context.pdgm.actuators[this.className]
+    act, ok := context.dmn.actuators[this.className]
     if ok == false {
         error := fmt.Sprintf("Name %v is not defined as an actuator component class", this.className)
         this.reportError(error, log)
+        return
     }
     this.class = &act.class
     this.component.typeCheck(context, log)
@@ -439,10 +441,11 @@ func newSensorComp(name string, device string, propertyName string, line int) (t
 
 func (this *sensorComp) typeCheck(context *process, log util.ErrorLog) {
     ok := false
-    this.property, ok = context.pdgm.properties[this.propertyName]
+    this.property, ok = context.dmn.properties[this.propertyName]
     if ok == false {
       error := fmt.Sprintf("Name %v is not defined as a property", this.className)
       this.reportError(error, log)
+      return
     }
     this.component.typeCheck(context, log)
 }
