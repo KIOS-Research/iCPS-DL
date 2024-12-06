@@ -1,3 +1,4 @@
+
 # iCPS-DL
 
 The iCPS-DL (industrial Cyber Physical Systems - Description Language) is a description language that maps an industrial process as a knowledge graph. It includes information about
@@ -8,15 +9,31 @@ The iCPS-DL (industrial Cyber Physical Systems - Description Language) is a desc
 
 A novel aspect language is the use of communication semantics to ensure correct interaction among distributed entities. Reasoning on the knowledge graph facilitates the configuration of cyber-physical elements in an industrial system.
 
-The provided script and code examples demonstrates a case study from the domain of Water Distribution Networks.
+
+## Compile
+
+### Requirements for compilation
+* java runtime environment
+* Go compiler 1.23
+
+### Compilation commands
+
+		java -jar .\res\antlr-4.10.1-complete.jar -Dlanguage=Go -no-listener -visitor .\ast\parser\ontology.g4
+
+compiles the antlr4 file containing the language grammar.
+
+		go build main
+
+compiles the Go program.
+
 
 ## Run
 
-* The entry point will run command
+* Command
 
 		.\main -sim
 
-* The entry point command will run a very basic simulation of the running example supervised by a proof-of-concept implementation of the autonomic supervisor.
+	executes a very basic simulation of the running example supervised by a proof-of-concept implementation of the autonomic supervisor.
 
 * The running simulation deploys a set of ditributed agents communicating using Go channels to control a water distribution network simulation.
 
@@ -28,20 +45,17 @@ The provided script and code examples demonstrates a case study from the domain 
 
 ## Interactive Run
 
-* By changing the entry point command to:
+* Executing:
 
-		.\main -load /data/script
+		.\main -load script
 
+* run the commands in the *script.dss* file.
 
-* The entry point command will run the commands in the */data/script.dss* file.
+* Specifically, it will load files */example/wdn.dss*, */example/simple.dss* and the */example/kb.* agent knowledge base. It will then perform a number of commands that find state estimation redundancies and compose agents based on their interactions.
 
-* Specifically, it will load files */data/example/wdn.dss*, */data/example/simple.dss* and the */data/example/kb.* agent knowledge base. It will then perform a number of commands that find analytical reduandancies and compose agents based on their interactions.
-
-* All relevant outputs, including a series of *.html* files, are outputted in the */results/* folder.
+* A number of *.html* files are outputted in the running folder.
 
 * Users can provide their own commands through the script.dss file, as well as create their own modules.
-
-* All user defined input needs to be in the */data/* folder.
 
 ## Modules
 The language provides a syntax for defining the following modules:
