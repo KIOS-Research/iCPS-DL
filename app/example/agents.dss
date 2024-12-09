@@ -1,4 +1,4 @@
-knowledge base wdn {
+repository wdn {
     estimate junction_mass using
           jmass = loop. producer1? flow. producer2? flow. consumer1! flow. loop
 

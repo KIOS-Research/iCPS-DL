@@ -18,7 +18,7 @@ A novel aspect language is the use of communication semantics to ensure correct 
 
 ### Compilation commands
 
-		java -jar .\res\antlr-4.10.1-complete.jar -Dlanguage=Go -no-listener -visitor .\ast\parser\ontology.g4
+		java -jar .\res\antlr-4.10.1-complete.jar -Dlanguage=Go -no-listener -visitor .\iCPSDL\parser\ontology.g4
 
 compiles the antlr4 file containing the language grammar.
 

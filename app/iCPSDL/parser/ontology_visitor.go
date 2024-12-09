@@ -134,9 +134,9 @@ type ontologyVisitor interface {
 	// Visit a parse tree produced by ontologyParser#choice.
 	VisitChoice(ctx *ChoiceContext) interface{}
 
-	// Visit a parse tree produced by ontologyParser#knowledge_base.
-	VisitKnowledge_base(ctx *Knowledge_baseContext) interface{}
+	// Visit a parse tree produced by ontologyParser#repository.
+	VisitRepository(ctx *RepositoryContext) interface{}
 
-	// Visit a parse tree produced by ontologyParser#knowledge_base_decl.
-	VisitKnowledge_base_decl(ctx *Knowledge_base_declContext) interface{}
+	// Visit a parse tree produced by ontologyParser#repository_decl.
+	VisitRepository_decl(ctx *Repository_declContext) interface{}
 }

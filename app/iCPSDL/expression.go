@@ -292,15 +292,15 @@ func (this *traverseExpression) prettyPrint(stream *util.Stream) {
 
 type configureExpression struct {
     expressionImpl
-    kb expression
+    rep expression
     controller string
     actuator string
 }
 
-func newConfigure(expr expression, kb expression, controller string, actuator string, line int) (this *configureExpression) {
+func newConfigure(expr expression, rep expression, controller string, actuator string, line int) (this *configureExpression) {
   this = new(configureExpression)
   this.newExpression(expr, line)
-  this.kb = kb
+  this.rep = rep
   this.controller = controller
   this.actuator = actuator
   return
@@ -317,18 +317,18 @@ func (this *configureExpression) execute(context *iCPSDL) (expression, util.Erro
         this.reportCommandLineError(error, log)
         return nil, log
     }
-    executed, log = this.kb.execute(context)
+    executed, log = this.rep.execute(context)
     if log.HasErrors() {
         return nil, log
     }
-    kb, ok := executed.(*knowledge_base)
+    rep, ok := executed.(*repository)
     if ok == false {
-        error := fmt.Sprintf("%v %v is not a knowledge base.", util.CapitaliseFirst(this.kb.getType()), this.kb.getModule())
+        error := fmt.Sprintf("%v %v is not a agent repository.", util.CapitaliseFirst(this.rep.getType()), this.rep.getModule())
         this.reportCommandLineError(error, log)
         return nil, log
     }
 
-    this.executed = art.configure(kb, this.controller, this.actuator, log)
+    this.executed = art.configure(rep, this.controller, this.actuator, log)
     return this.executed, log
 }
 
@@ -336,7 +336,7 @@ func (this *configureExpression) prettyPrint(stream *util.Stream) {
     stream.Print("configure ")
     this.expressionImpl.prettyPrint(stream)
     stream.Print(" ")
-    this.kb.prettyPrint(stream)
+    this.rep.prettyPrint(stream)
 }
 
 /*****************************************************************************

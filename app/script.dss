@@ -1,23 +1,23 @@
 # load the water distribution network domain
 wdn := load example/wdn
 
-# load the agent knowledge base
-kb := load example/kb
+# load the agent repository
+agents := load example/agents
 
 # load the industrial process knowledge graph
 simple := load example/simple
 
-seq := translate simple
-trees := traverse t.head seq
+seg := translate simple
+trees := traverse t.head seg
 
 # configure the control loops corresponding to state estimation trees
-lc0 := configure trees[0] kb controller u
-lc1 := configure trees[1] kb controller u
-lc2 := configure trees[2] kb controller u
-lc3 := configure trees[3] kb controller u
-lc4 := configure trees[4] kb controller u
-lc5 := configure trees[5] kb controller u
-lc6 := configure trees[6] kb controller u
+lc0 := configure trees[0] agents controller u
+lc1 := configure trees[1] agents controller u
+lc2 := configure trees[2] agents controller u
+lc3 := configure trees[3] agents controller u
+lc4 := configure trees[4] agents controller u
+lc5 := configure trees[5] agents controller u
+lc6 := configure trees[6] agents controller u
 
 
 # validate liveness
@@ -44,12 +44,12 @@ mermaid trees[6]
 
 simple := load example/simple
 
-seq := translate simple
-newTrees := traverse t.head seq
+seg := translate simple
+newTrees := traverse t.head seg
 
 # configure the control loops corresponding to state estimation trees
-newlc0 := configure newTrees[0] kb controller u
-newlc1 := configure newTrees[1] kb controller u
+newlc0 := configure newTrees[0] agents controller u
+newlc1 := configure newTrees[1] agents controller u
 
 # mermaid representation
 mermaid newTrees[0]

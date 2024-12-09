@@ -35,8 +35,8 @@ func ontologyParserInit() {
 	staticData.literalNames = []string{
 		"", "'load'", "'show'", "'ls'", "'translate'", "'mermaid'", "'rm'",
 		"'traverse'", "'configure'", "'compose'", "'project'", "'info'", "'exit'",
-		"'quit'", "'domain'", "'process'", "'knowledge'", "'base'", "'property'",
-		"'model'", "'class'", "'physical'", "'actuator'", "'sensor'", "'translation'",
+		"'quit'", "'domain'", "'process'", "'repository'", "'property'", "'model'",
+		"'class'", "'physical'", "'actuator'", "'sensor'", "'translation'",
 		"'device'", "'conn'", "'estimate'", "'sense'", "'control'", "'actuate'",
 		"'using'", "'local'", "'global'", "'or'", "'end'", "'('", "')'", "'{'",
 		"'}'", "'['", "']'", "'@'", "'='", "':='", "','", "':'", "'.'", "'->'",
@@ -45,11 +45,11 @@ func ontologyParserInit() {
 	staticData.symbolicNames = []string{
 		"", "LOAD", "SHOW", "LS", "TRANSLATE", "MERMAID", "REMOVE", "TRAVERSE",
 		"CONFIGURE", "COMPOSE", "PROJECT", "INFO", "EXIT", "QUIT", "DOMAIN",
-		"PROCESS", "KNOWLEDGE", "BASE", "PROPERTY", "MODEL", "CLASS", "PHYSICAL",
-		"ACTUATOR", "SENSOR", "TRANSLATION", "DEVICE", "CONNECTION", "ESTIMATE",
-		"SENSE", "CONTROL", "ACTUATE", "USING", "LOCAL", "GLOBAL", "OR", "END",
-		"LPAR", "RPAR", "LBRA", "RBRA", "LSQ", "RSQ", "AT", "EQ", "ASGN", "COMMA",
-		"COLON", "DOT", "ARROW", "BANG", "QUESTION", "PATH", "ID", "INT", "COMMENTS",
+		"PROCESS", "REPOSITORY", "PROPERTY", "MODEL", "CLASS", "PHYSICAL", "ACTUATOR",
+		"SENSOR", "TRANSLATION", "DEVICE", "CONNECTION", "ESTIMATE", "SENSE",
+		"CONTROL", "ACTUATE", "USING", "LOCAL", "GLOBAL", "OR", "END", "LPAR",
+		"RPAR", "LBRA", "RBRA", "LSQ", "RSQ", "AT", "EQ", "ASGN", "COMMA", "COLON",
+		"DOT", "ARROW", "BANG", "QUESTION", "PATH", "ID", "INT", "COMMENTS",
 		"WS",
 	}
 	staticData.ruleNames = []string{
@@ -60,11 +60,11 @@ func ontologyParserInit() {
 		"process", "process_declaration", "device", "component", "connection_decl",
 		"local_configuration", "global_configuration", "local", "send", "receive",
 		"loop", "label", "select", "branch", "global", "pass", "global_loop",
-		"choice", "knowledge_base", "knowledge_base_decl",
+		"choice", "repository", "repository_decl",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 55, 509, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 54, 508, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
 		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
 		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
@@ -112,178 +112,178 @@ func ontologyParserInit() {
 		1, 39, 1, 39, 1, 39, 1, 39, 1, 39, 1, 39, 1, 40, 1, 40, 1, 40, 1, 40, 1,
 		41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41,
 		1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 4, 41, 468, 8, 41, 11, 41, 12,
-		41, 469, 1, 42, 1, 42, 1, 42, 1, 42, 1, 42, 4, 42, 477, 8, 42, 11, 42,
-		12, 42, 478, 1, 42, 1, 42, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1,
+		41, 469, 1, 42, 1, 42, 1, 42, 1, 42, 4, 42, 476, 8, 42, 11, 42, 12, 42,
+		477, 1, 42, 1, 42, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1,
 		43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43,
-		1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 3, 43, 507, 8, 43, 1,
-		43, 0, 1, 4, 44, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28,
-		30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64,
-		66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 0, 3, 1, 0, 12, 13, 1, 0, 51,
-		52, 1, 0, 21, 22, 527, 0, 91, 1, 0, 0, 0, 2, 99, 1, 0, 0, 0, 4, 123, 1,
-		0, 0, 0, 6, 134, 1, 0, 0, 0, 8, 137, 1, 0, 0, 0, 10, 141, 1, 0, 0, 0, 12,
-		152, 1, 0, 0, 0, 14, 154, 1, 0, 0, 0, 16, 157, 1, 0, 0, 0, 18, 160, 1,
-		0, 0, 0, 20, 166, 1, 0, 0, 0, 22, 172, 1, 0, 0, 0, 24, 175, 1, 0, 0, 0,
-		26, 178, 1, 0, 0, 0, 28, 182, 1, 0, 0, 0, 30, 196, 1, 0, 0, 0, 32, 198,
-		1, 0, 0, 0, 34, 219, 1, 0, 0, 0, 36, 221, 1, 0, 0, 0, 38, 230, 1, 0, 0,
-		0, 40, 249, 1, 0, 0, 0, 42, 253, 1, 0, 0, 0, 44, 266, 1, 0, 0, 0, 46, 274,
-		1, 0, 0, 0, 48, 278, 1, 0, 0, 0, 50, 292, 1, 0, 0, 0, 52, 294, 1, 0, 0,
-		0, 54, 341, 1, 0, 0, 0, 56, 343, 1, 0, 0, 0, 58, 352, 1, 0, 0, 0, 60, 363,
-		1, 0, 0, 0, 62, 373, 1, 0, 0, 0, 64, 375, 1, 0, 0, 0, 66, 381, 1, 0, 0,
-		0, 68, 387, 1, 0, 0, 0, 70, 391, 1, 0, 0, 0, 72, 393, 1, 0, 0, 0, 74, 412,
-		1, 0, 0, 0, 76, 436, 1, 0, 0, 0, 78, 438, 1, 0, 0, 0, 80, 446, 1, 0, 0,
-		0, 82, 450, 1, 0, 0, 0, 84, 471, 1, 0, 0, 0, 86, 506, 1, 0, 0, 0, 88, 90,
-		3, 4, 2, 0, 89, 88, 1, 0, 0, 0, 90, 93, 1, 0, 0, 0, 91, 89, 1, 0, 0, 0,
-		91, 92, 1, 0, 0, 0, 92, 95, 1, 0, 0, 0, 93, 91, 1, 0, 0, 0, 94, 96, 3,
-		2, 1, 0, 95, 94, 1, 0, 0, 0, 95, 96, 1, 0, 0, 0, 96, 97, 1, 0, 0, 0, 97,
-		98, 5, 0, 0, 1, 98, 1, 1, 0, 0, 0, 99, 100, 7, 0, 0, 0, 100, 3, 1, 0, 0,
-		0, 101, 102, 6, 2, -1, 0, 102, 124, 3, 28, 14, 0, 103, 124, 3, 48, 24,
-		0, 104, 124, 3, 58, 29, 0, 105, 124, 3, 60, 30, 0, 106, 124, 3, 84, 42,
-		0, 107, 124, 3, 6, 3, 0, 108, 124, 3, 8, 4, 0, 109, 124, 3, 10, 5, 0, 110,
-		124, 3, 12, 6, 0, 111, 124, 3, 14, 7, 0, 112, 124, 3, 16, 8, 0, 113, 124,
-		3, 18, 9, 0, 114, 124, 3, 20, 10, 0, 115, 124, 3, 22, 11, 0, 116, 124,
-		3, 24, 12, 0, 117, 124, 3, 26, 13, 0, 118, 124, 5, 52, 0, 0, 119, 120,
-		5, 36, 0, 0, 120, 121, 3, 4, 2, 0, 121, 122, 5, 37, 0, 0, 122, 124, 1,
-		0, 0, 0, 123, 101, 1, 0, 0, 0, 123, 103, 1, 0, 0, 0, 123, 104, 1, 0, 0,
-		0, 123, 105, 1, 0, 0, 0, 123, 106, 1, 0, 0, 0, 123, 107, 1, 0, 0, 0, 123,
+		1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 1, 43, 3, 43, 506, 8, 43, 1, 43, 0,
+		1, 4, 44, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32,
+		34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68,
+		70, 72, 74, 76, 78, 80, 82, 84, 86, 0, 3, 1, 0, 12, 13, 1, 0, 50, 51, 1,
+		0, 20, 21, 526, 0, 91, 1, 0, 0, 0, 2, 99, 1, 0, 0, 0, 4, 123, 1, 0, 0,
+		0, 6, 134, 1, 0, 0, 0, 8, 137, 1, 0, 0, 0, 10, 141, 1, 0, 0, 0, 12, 152,
+		1, 0, 0, 0, 14, 154, 1, 0, 0, 0, 16, 157, 1, 0, 0, 0, 18, 160, 1, 0, 0,
+		0, 20, 166, 1, 0, 0, 0, 22, 172, 1, 0, 0, 0, 24, 175, 1, 0, 0, 0, 26, 178,
+		1, 0, 0, 0, 28, 182, 1, 0, 0, 0, 30, 196, 1, 0, 0, 0, 32, 198, 1, 0, 0,
+		0, 34, 219, 1, 0, 0, 0, 36, 221, 1, 0, 0, 0, 38, 230, 1, 0, 0, 0, 40, 249,
+		1, 0, 0, 0, 42, 253, 1, 0, 0, 0, 44, 266, 1, 0, 0, 0, 46, 274, 1, 0, 0,
+		0, 48, 278, 1, 0, 0, 0, 50, 292, 1, 0, 0, 0, 52, 294, 1, 0, 0, 0, 54, 341,
+		1, 0, 0, 0, 56, 343, 1, 0, 0, 0, 58, 352, 1, 0, 0, 0, 60, 363, 1, 0, 0,
+		0, 62, 373, 1, 0, 0, 0, 64, 375, 1, 0, 0, 0, 66, 381, 1, 0, 0, 0, 68, 387,
+		1, 0, 0, 0, 70, 391, 1, 0, 0, 0, 72, 393, 1, 0, 0, 0, 74, 412, 1, 0, 0,
+		0, 76, 436, 1, 0, 0, 0, 78, 438, 1, 0, 0, 0, 80, 446, 1, 0, 0, 0, 82, 450,
+		1, 0, 0, 0, 84, 471, 1, 0, 0, 0, 86, 505, 1, 0, 0, 0, 88, 90, 3, 4, 2,
+		0, 89, 88, 1, 0, 0, 0, 90, 93, 1, 0, 0, 0, 91, 89, 1, 0, 0, 0, 91, 92,
+		1, 0, 0, 0, 92, 95, 1, 0, 0, 0, 93, 91, 1, 0, 0, 0, 94, 96, 3, 2, 1, 0,
+		95, 94, 1, 0, 0, 0, 95, 96, 1, 0, 0, 0, 96, 97, 1, 0, 0, 0, 97, 98, 5,
+		0, 0, 1, 98, 1, 1, 0, 0, 0, 99, 100, 7, 0, 0, 0, 100, 3, 1, 0, 0, 0, 101,
+		102, 6, 2, -1, 0, 102, 124, 3, 28, 14, 0, 103, 124, 3, 48, 24, 0, 104,
+		124, 3, 58, 29, 0, 105, 124, 3, 60, 30, 0, 106, 124, 3, 84, 42, 0, 107,
+		124, 3, 6, 3, 0, 108, 124, 3, 8, 4, 0, 109, 124, 3, 10, 5, 0, 110, 124,
+		3, 12, 6, 0, 111, 124, 3, 14, 7, 0, 112, 124, 3, 16, 8, 0, 113, 124, 3,
+		18, 9, 0, 114, 124, 3, 20, 10, 0, 115, 124, 3, 22, 11, 0, 116, 124, 3,
+		24, 12, 0, 117, 124, 3, 26, 13, 0, 118, 124, 5, 51, 0, 0, 119, 120, 5,
+		35, 0, 0, 120, 121, 3, 4, 2, 0, 121, 122, 5, 36, 0, 0, 122, 124, 1, 0,
+		0, 0, 123, 101, 1, 0, 0, 0, 123, 103, 1, 0, 0, 0, 123, 104, 1, 0, 0, 0,
+		123, 105, 1, 0, 0, 0, 123, 106, 1, 0, 0, 0, 123, 107, 1, 0, 0, 0, 123,
 		108, 1, 0, 0, 0, 123, 109, 1, 0, 0, 0, 123, 110, 1, 0, 0, 0, 123, 111,
 		1, 0, 0, 0, 123, 112, 1, 0, 0, 0, 123, 113, 1, 0, 0, 0, 123, 114, 1, 0,
 		0, 0, 123, 115, 1, 0, 0, 0, 123, 116, 1, 0, 0, 0, 123, 117, 1, 0, 0, 0,
 		123, 118, 1, 0, 0, 0, 123, 119, 1, 0, 0, 0, 124, 131, 1, 0, 0, 0, 125,
-		126, 10, 3, 0, 0, 126, 127, 5, 40, 0, 0, 127, 128, 5, 53, 0, 0, 128, 130,
-		5, 41, 0, 0, 129, 125, 1, 0, 0, 0, 130, 133, 1, 0, 0, 0, 131, 129, 1, 0,
+		126, 10, 3, 0, 0, 126, 127, 5, 39, 0, 0, 127, 128, 5, 52, 0, 0, 128, 130,
+		5, 40, 0, 0, 129, 125, 1, 0, 0, 0, 130, 133, 1, 0, 0, 0, 131, 129, 1, 0,
 		0, 0, 131, 132, 1, 0, 0, 0, 132, 5, 1, 0, 0, 0, 133, 131, 1, 0, 0, 0, 134,
 		135, 5, 1, 0, 0, 135, 136, 7, 1, 0, 0, 136, 7, 1, 0, 0, 0, 137, 138, 5,
-		52, 0, 0, 138, 139, 5, 44, 0, 0, 139, 140, 3, 4, 2, 0, 140, 9, 1, 0, 0,
-		0, 141, 142, 5, 6, 0, 0, 142, 143, 5, 52, 0, 0, 143, 11, 1, 0, 0, 0, 144,
+		51, 0, 0, 138, 139, 5, 43, 0, 0, 139, 140, 3, 4, 2, 0, 140, 9, 1, 0, 0,
+		0, 141, 142, 5, 6, 0, 0, 142, 143, 5, 51, 0, 0, 143, 11, 1, 0, 0, 0, 144,
 		146, 5, 2, 0, 0, 145, 147, 3, 4, 2, 0, 146, 145, 1, 0, 0, 0, 146, 147,
 		1, 0, 0, 0, 147, 153, 1, 0, 0, 0, 148, 150, 5, 3, 0, 0, 149, 151, 3, 4,
 		2, 0, 150, 149, 1, 0, 0, 0, 150, 151, 1, 0, 0, 0, 151, 153, 1, 0, 0, 0,
 		152, 144, 1, 0, 0, 0, 152, 148, 1, 0, 0, 0, 153, 13, 1, 0, 0, 0, 154, 155,
 		5, 5, 0, 0, 155, 156, 3, 4, 2, 0, 156, 15, 1, 0, 0, 0, 157, 158, 5, 4,
 		0, 0, 158, 159, 3, 4, 2, 0, 159, 17, 1, 0, 0, 0, 160, 161, 5, 7, 0, 0,
-		161, 162, 5, 52, 0, 0, 162, 163, 5, 47, 0, 0, 163, 164, 5, 52, 0, 0, 164,
+		161, 162, 5, 51, 0, 0, 162, 163, 5, 46, 0, 0, 163, 164, 5, 51, 0, 0, 164,
 		165, 3, 4, 2, 0, 165, 19, 1, 0, 0, 0, 166, 167, 5, 8, 0, 0, 167, 168, 3,
-		4, 2, 0, 168, 169, 3, 4, 2, 0, 169, 170, 5, 52, 0, 0, 170, 171, 5, 52,
+		4, 2, 0, 168, 169, 3, 4, 2, 0, 169, 170, 5, 51, 0, 0, 170, 171, 5, 51,
 		0, 0, 171, 21, 1, 0, 0, 0, 172, 173, 5, 9, 0, 0, 173, 174, 3, 4, 2, 0,
 		174, 23, 1, 0, 0, 0, 175, 176, 5, 10, 0, 0, 176, 177, 3, 4, 2, 0, 177,
 		25, 1, 0, 0, 0, 178, 180, 5, 11, 0, 0, 179, 181, 3, 4, 2, 0, 180, 179,
 		1, 0, 0, 0, 180, 181, 1, 0, 0, 0, 181, 27, 1, 0, 0, 0, 182, 183, 5, 14,
-		0, 0, 183, 187, 5, 38, 0, 0, 184, 186, 3, 30, 15, 0, 185, 184, 1, 0, 0,
+		0, 0, 183, 187, 5, 37, 0, 0, 184, 186, 3, 30, 15, 0, 185, 184, 1, 0, 0,
 		0, 186, 189, 1, 0, 0, 0, 187, 185, 1, 0, 0, 0, 187, 188, 1, 0, 0, 0, 188,
-		190, 1, 0, 0, 0, 189, 187, 1, 0, 0, 0, 190, 191, 5, 39, 0, 0, 191, 29,
+		190, 1, 0, 0, 0, 189, 187, 1, 0, 0, 0, 190, 191, 5, 38, 0, 0, 191, 29,
 		1, 0, 0, 0, 192, 197, 3, 32, 16, 0, 193, 197, 3, 38, 19, 0, 194, 197, 3,
 		36, 18, 0, 195, 197, 3, 42, 21, 0, 196, 192, 1, 0, 0, 0, 196, 193, 1, 0,
 		0, 0, 196, 194, 1, 0, 0, 0, 196, 195, 1, 0, 0, 0, 197, 31, 1, 0, 0, 0,
-		198, 199, 5, 18, 0, 0, 199, 204, 3, 34, 17, 0, 200, 201, 5, 45, 0, 0, 201,
+		198, 199, 5, 17, 0, 0, 199, 204, 3, 34, 17, 0, 200, 201, 5, 44, 0, 0, 201,
 		203, 3, 34, 17, 0, 202, 200, 1, 0, 0, 0, 203, 206, 1, 0, 0, 0, 204, 202,
 		1, 0, 0, 0, 204, 205, 1, 0, 0, 0, 205, 33, 1, 0, 0, 0, 206, 204, 1, 0,
-		0, 0, 207, 208, 5, 52, 0, 0, 208, 209, 5, 38, 0, 0, 209, 214, 5, 52, 0,
-		0, 210, 211, 5, 45, 0, 0, 211, 213, 5, 52, 0, 0, 212, 210, 1, 0, 0, 0,
+		0, 0, 207, 208, 5, 51, 0, 0, 208, 209, 5, 37, 0, 0, 209, 214, 5, 51, 0,
+		0, 210, 211, 5, 44, 0, 0, 211, 213, 5, 51, 0, 0, 212, 210, 1, 0, 0, 0,
 		213, 216, 1, 0, 0, 0, 214, 212, 1, 0, 0, 0, 214, 215, 1, 0, 0, 0, 215,
-		217, 1, 0, 0, 0, 216, 214, 1, 0, 0, 0, 217, 220, 5, 39, 0, 0, 218, 220,
-		5, 52, 0, 0, 219, 207, 1, 0, 0, 0, 219, 218, 1, 0, 0, 0, 220, 35, 1, 0,
-		0, 0, 221, 222, 5, 19, 0, 0, 222, 227, 5, 52, 0, 0, 223, 224, 5, 45, 0,
-		0, 224, 226, 5, 52, 0, 0, 225, 223, 1, 0, 0, 0, 226, 229, 1, 0, 0, 0, 227,
+		217, 1, 0, 0, 0, 216, 214, 1, 0, 0, 0, 217, 220, 5, 38, 0, 0, 218, 220,
+		5, 51, 0, 0, 219, 207, 1, 0, 0, 0, 219, 218, 1, 0, 0, 0, 220, 35, 1, 0,
+		0, 0, 221, 222, 5, 18, 0, 0, 222, 227, 5, 51, 0, 0, 223, 224, 5, 44, 0,
+		0, 224, 226, 5, 51, 0, 0, 225, 223, 1, 0, 0, 0, 226, 229, 1, 0, 0, 0, 227,
 		225, 1, 0, 0, 0, 227, 228, 1, 0, 0, 0, 228, 37, 1, 0, 0, 0, 229, 227, 1,
-		0, 0, 0, 230, 231, 7, 2, 0, 0, 231, 232, 5, 52, 0, 0, 232, 241, 5, 36,
-		0, 0, 233, 238, 5, 52, 0, 0, 234, 235, 5, 45, 0, 0, 235, 237, 5, 52, 0,
+		0, 0, 0, 230, 231, 7, 2, 0, 0, 231, 232, 5, 51, 0, 0, 232, 241, 5, 35,
+		0, 0, 233, 238, 5, 51, 0, 0, 234, 235, 5, 44, 0, 0, 235, 237, 5, 51, 0,
 		0, 236, 234, 1, 0, 0, 0, 237, 240, 1, 0, 0, 0, 238, 236, 1, 0, 0, 0, 238,
 		239, 1, 0, 0, 0, 239, 242, 1, 0, 0, 0, 240, 238, 1, 0, 0, 0, 241, 233,
-		1, 0, 0, 0, 241, 242, 1, 0, 0, 0, 242, 243, 1, 0, 0, 0, 243, 244, 5, 37,
-		0, 0, 244, 245, 5, 46, 0, 0, 245, 246, 3, 40, 20, 0, 246, 247, 5, 45, 0,
-		0, 247, 248, 3, 40, 20, 0, 248, 39, 1, 0, 0, 0, 249, 250, 5, 52, 0, 0,
-		250, 251, 5, 48, 0, 0, 251, 252, 5, 52, 0, 0, 252, 41, 1, 0, 0, 0, 253,
-		254, 5, 24, 0, 0, 254, 255, 5, 52, 0, 0, 255, 256, 5, 48, 0, 0, 256, 257,
-		5, 52, 0, 0, 257, 258, 5, 46, 0, 0, 258, 263, 3, 44, 22, 0, 259, 260, 5,
-		45, 0, 0, 260, 262, 3, 44, 22, 0, 261, 259, 1, 0, 0, 0, 262, 265, 1, 0,
+		1, 0, 0, 0, 241, 242, 1, 0, 0, 0, 242, 243, 1, 0, 0, 0, 243, 244, 5, 36,
+		0, 0, 244, 245, 5, 45, 0, 0, 245, 246, 3, 40, 20, 0, 246, 247, 5, 44, 0,
+		0, 247, 248, 3, 40, 20, 0, 248, 39, 1, 0, 0, 0, 249, 250, 5, 51, 0, 0,
+		250, 251, 5, 47, 0, 0, 251, 252, 5, 51, 0, 0, 252, 41, 1, 0, 0, 0, 253,
+		254, 5, 23, 0, 0, 254, 255, 5, 51, 0, 0, 255, 256, 5, 47, 0, 0, 256, 257,
+		5, 51, 0, 0, 257, 258, 5, 45, 0, 0, 258, 263, 3, 44, 22, 0, 259, 260, 5,
+		44, 0, 0, 260, 262, 3, 44, 22, 0, 261, 259, 1, 0, 0, 0, 262, 265, 1, 0,
 		0, 0, 263, 261, 1, 0, 0, 0, 263, 264, 1, 0, 0, 0, 264, 43, 1, 0, 0, 0,
-		265, 263, 1, 0, 0, 0, 266, 267, 5, 52, 0, 0, 267, 268, 5, 47, 0, 0, 268,
-		269, 5, 52, 0, 0, 269, 270, 5, 48, 0, 0, 270, 271, 5, 52, 0, 0, 271, 272,
-		5, 47, 0, 0, 272, 273, 5, 52, 0, 0, 273, 45, 1, 0, 0, 0, 274, 275, 5, 52,
-		0, 0, 275, 276, 5, 48, 0, 0, 276, 277, 5, 52, 0, 0, 277, 47, 1, 0, 0, 0,
-		278, 279, 5, 15, 0, 0, 279, 280, 5, 52, 0, 0, 280, 284, 5, 38, 0, 0, 281,
+		265, 263, 1, 0, 0, 0, 266, 267, 5, 51, 0, 0, 267, 268, 5, 46, 0, 0, 268,
+		269, 5, 51, 0, 0, 269, 270, 5, 47, 0, 0, 270, 271, 5, 51, 0, 0, 271, 272,
+		5, 46, 0, 0, 272, 273, 5, 51, 0, 0, 273, 45, 1, 0, 0, 0, 274, 275, 5, 51,
+		0, 0, 275, 276, 5, 47, 0, 0, 276, 277, 5, 51, 0, 0, 277, 47, 1, 0, 0, 0,
+		278, 279, 5, 15, 0, 0, 279, 280, 5, 51, 0, 0, 280, 284, 5, 37, 0, 0, 281,
 		283, 3, 50, 25, 0, 282, 281, 1, 0, 0, 0, 283, 286, 1, 0, 0, 0, 284, 282,
 		1, 0, 0, 0, 284, 285, 1, 0, 0, 0, 285, 287, 1, 0, 0, 0, 286, 284, 1, 0,
-		0, 0, 287, 288, 5, 39, 0, 0, 288, 49, 1, 0, 0, 0, 289, 293, 3, 52, 26,
+		0, 0, 287, 288, 5, 38, 0, 0, 288, 49, 1, 0, 0, 0, 289, 293, 3, 52, 26,
 		0, 290, 293, 3, 54, 27, 0, 291, 293, 3, 56, 28, 0, 292, 289, 1, 0, 0, 0,
 		292, 290, 1, 0, 0, 0, 292, 291, 1, 0, 0, 0, 293, 51, 1, 0, 0, 0, 294, 295,
-		5, 25, 0, 0, 295, 300, 5, 52, 0, 0, 296, 297, 5, 45, 0, 0, 297, 299, 5,
-		52, 0, 0, 298, 296, 1, 0, 0, 0, 299, 302, 1, 0, 0, 0, 300, 298, 1, 0, 0,
+		5, 24, 0, 0, 295, 300, 5, 51, 0, 0, 296, 297, 5, 44, 0, 0, 297, 299, 5,
+		51, 0, 0, 298, 296, 1, 0, 0, 0, 299, 302, 1, 0, 0, 0, 300, 298, 1, 0, 0,
 		0, 300, 301, 1, 0, 0, 0, 301, 53, 1, 0, 0, 0, 302, 300, 1, 0, 0, 0, 303,
-		304, 5, 21, 0, 0, 304, 309, 5, 52, 0, 0, 305, 306, 5, 45, 0, 0, 306, 308,
-		5, 52, 0, 0, 307, 305, 1, 0, 0, 0, 308, 311, 1, 0, 0, 0, 309, 307, 1, 0,
+		304, 5, 20, 0, 0, 304, 309, 5, 51, 0, 0, 305, 306, 5, 44, 0, 0, 306, 308,
+		5, 51, 0, 0, 307, 305, 1, 0, 0, 0, 308, 311, 1, 0, 0, 0, 309, 307, 1, 0,
 		0, 0, 309, 310, 1, 0, 0, 0, 310, 312, 1, 0, 0, 0, 311, 309, 1, 0, 0, 0,
-		312, 342, 5, 52, 0, 0, 313, 314, 5, 22, 0, 0, 314, 315, 5, 52, 0, 0, 315,
-		316, 5, 42, 0, 0, 316, 323, 5, 52, 0, 0, 317, 318, 5, 45, 0, 0, 318, 319,
-		5, 52, 0, 0, 319, 320, 5, 42, 0, 0, 320, 322, 5, 52, 0, 0, 321, 317, 1,
+		312, 342, 5, 51, 0, 0, 313, 314, 5, 21, 0, 0, 314, 315, 5, 51, 0, 0, 315,
+		316, 5, 41, 0, 0, 316, 323, 5, 51, 0, 0, 317, 318, 5, 44, 0, 0, 318, 319,
+		5, 51, 0, 0, 319, 320, 5, 41, 0, 0, 320, 322, 5, 51, 0, 0, 321, 317, 1,
 		0, 0, 0, 322, 325, 1, 0, 0, 0, 323, 321, 1, 0, 0, 0, 323, 324, 1, 0, 0,
-		0, 324, 326, 1, 0, 0, 0, 325, 323, 1, 0, 0, 0, 326, 342, 5, 52, 0, 0, 327,
-		328, 5, 23, 0, 0, 328, 329, 5, 52, 0, 0, 329, 330, 5, 42, 0, 0, 330, 337,
-		5, 52, 0, 0, 331, 332, 5, 45, 0, 0, 332, 333, 5, 52, 0, 0, 333, 334, 5,
-		42, 0, 0, 334, 336, 5, 52, 0, 0, 335, 331, 1, 0, 0, 0, 336, 339, 1, 0,
+		0, 324, 326, 1, 0, 0, 0, 325, 323, 1, 0, 0, 0, 326, 342, 5, 51, 0, 0, 327,
+		328, 5, 22, 0, 0, 328, 329, 5, 51, 0, 0, 329, 330, 5, 41, 0, 0, 330, 337,
+		5, 51, 0, 0, 331, 332, 5, 44, 0, 0, 332, 333, 5, 51, 0, 0, 333, 334, 5,
+		41, 0, 0, 334, 336, 5, 51, 0, 0, 335, 331, 1, 0, 0, 0, 336, 339, 1, 0,
 		0, 0, 337, 335, 1, 0, 0, 0, 337, 338, 1, 0, 0, 0, 338, 340, 1, 0, 0, 0,
-		339, 337, 1, 0, 0, 0, 340, 342, 5, 52, 0, 0, 341, 303, 1, 0, 0, 0, 341,
+		339, 337, 1, 0, 0, 0, 340, 342, 5, 51, 0, 0, 341, 303, 1, 0, 0, 0, 341,
 		313, 1, 0, 0, 0, 341, 327, 1, 0, 0, 0, 342, 55, 1, 0, 0, 0, 343, 344, 5,
-		26, 0, 0, 344, 349, 3, 46, 23, 0, 345, 346, 5, 45, 0, 0, 346, 348, 3, 46,
+		25, 0, 0, 344, 349, 3, 46, 23, 0, 345, 346, 5, 44, 0, 0, 346, 348, 3, 46,
 		23, 0, 347, 345, 1, 0, 0, 0, 348, 351, 1, 0, 0, 0, 349, 347, 1, 0, 0, 0,
 		349, 350, 1, 0, 0, 0, 350, 57, 1, 0, 0, 0, 351, 349, 1, 0, 0, 0, 352, 353,
-		5, 32, 0, 0, 353, 357, 5, 38, 0, 0, 354, 355, 5, 52, 0, 0, 355, 356, 5,
-		43, 0, 0, 356, 358, 3, 62, 31, 0, 357, 354, 1, 0, 0, 0, 358, 359, 1, 0,
+		5, 31, 0, 0, 353, 357, 5, 37, 0, 0, 354, 355, 5, 51, 0, 0, 355, 356, 5,
+		42, 0, 0, 356, 358, 3, 62, 31, 0, 357, 354, 1, 0, 0, 0, 358, 359, 1, 0,
 		0, 0, 359, 357, 1, 0, 0, 0, 359, 360, 1, 0, 0, 0, 360, 361, 1, 0, 0, 0,
-		361, 362, 5, 39, 0, 0, 362, 59, 1, 0, 0, 0, 363, 364, 5, 33, 0, 0, 364,
-		365, 3, 76, 38, 0, 365, 61, 1, 0, 0, 0, 366, 374, 5, 35, 0, 0, 367, 374,
+		361, 362, 5, 38, 0, 0, 362, 59, 1, 0, 0, 0, 363, 364, 5, 32, 0, 0, 364,
+		365, 3, 76, 38, 0, 365, 61, 1, 0, 0, 0, 366, 374, 5, 34, 0, 0, 367, 374,
 		3, 64, 32, 0, 368, 374, 3, 66, 33, 0, 369, 374, 3, 68, 34, 0, 370, 374,
 		3, 70, 35, 0, 371, 374, 3, 72, 36, 0, 372, 374, 3, 74, 37, 0, 373, 366,
 		1, 0, 0, 0, 373, 367, 1, 0, 0, 0, 373, 368, 1, 0, 0, 0, 373, 369, 1, 0,
 		0, 0, 373, 370, 1, 0, 0, 0, 373, 371, 1, 0, 0, 0, 373, 372, 1, 0, 0, 0,
-		374, 63, 1, 0, 0, 0, 375, 376, 5, 52, 0, 0, 376, 377, 5, 49, 0, 0, 377,
-		378, 3, 34, 17, 0, 378, 379, 5, 47, 0, 0, 379, 380, 3, 62, 31, 0, 380,
-		65, 1, 0, 0, 0, 381, 382, 5, 52, 0, 0, 382, 383, 5, 50, 0, 0, 383, 384,
-		3, 34, 17, 0, 384, 385, 5, 47, 0, 0, 385, 386, 3, 62, 31, 0, 386, 67, 1,
-		0, 0, 0, 387, 388, 5, 52, 0, 0, 388, 389, 5, 47, 0, 0, 389, 390, 3, 62,
-		31, 0, 390, 69, 1, 0, 0, 0, 391, 392, 5, 52, 0, 0, 392, 71, 1, 0, 0, 0,
-		393, 394, 5, 52, 0, 0, 394, 395, 5, 49, 0, 0, 395, 396, 5, 52, 0, 0, 396,
-		397, 5, 38, 0, 0, 397, 398, 5, 52, 0, 0, 398, 399, 5, 46, 0, 0, 399, 400,
-		3, 62, 31, 0, 400, 408, 5, 39, 0, 0, 401, 402, 5, 34, 0, 0, 402, 403, 5,
-		38, 0, 0, 403, 404, 5, 52, 0, 0, 404, 405, 5, 46, 0, 0, 405, 406, 3, 62,
-		31, 0, 406, 407, 5, 39, 0, 0, 407, 409, 1, 0, 0, 0, 408, 401, 1, 0, 0,
+		374, 63, 1, 0, 0, 0, 375, 376, 5, 51, 0, 0, 376, 377, 5, 48, 0, 0, 377,
+		378, 3, 34, 17, 0, 378, 379, 5, 46, 0, 0, 379, 380, 3, 62, 31, 0, 380,
+		65, 1, 0, 0, 0, 381, 382, 5, 51, 0, 0, 382, 383, 5, 49, 0, 0, 383, 384,
+		3, 34, 17, 0, 384, 385, 5, 46, 0, 0, 385, 386, 3, 62, 31, 0, 386, 67, 1,
+		0, 0, 0, 387, 388, 5, 51, 0, 0, 388, 389, 5, 46, 0, 0, 389, 390, 3, 62,
+		31, 0, 390, 69, 1, 0, 0, 0, 391, 392, 5, 51, 0, 0, 392, 71, 1, 0, 0, 0,
+		393, 394, 5, 51, 0, 0, 394, 395, 5, 48, 0, 0, 395, 396, 5, 51, 0, 0, 396,
+		397, 5, 37, 0, 0, 397, 398, 5, 51, 0, 0, 398, 399, 5, 45, 0, 0, 399, 400,
+		3, 62, 31, 0, 400, 408, 5, 38, 0, 0, 401, 402, 5, 33, 0, 0, 402, 403, 5,
+		37, 0, 0, 403, 404, 5, 51, 0, 0, 404, 405, 5, 45, 0, 0, 405, 406, 3, 62,
+		31, 0, 406, 407, 5, 38, 0, 0, 407, 409, 1, 0, 0, 0, 408, 401, 1, 0, 0,
 		0, 409, 410, 1, 0, 0, 0, 410, 408, 1, 0, 0, 0, 410, 411, 1, 0, 0, 0, 411,
-		73, 1, 0, 0, 0, 412, 413, 5, 52, 0, 0, 413, 414, 5, 50, 0, 0, 414, 415,
-		5, 52, 0, 0, 415, 416, 5, 38, 0, 0, 416, 417, 5, 52, 0, 0, 417, 418, 5,
-		46, 0, 0, 418, 419, 3, 62, 31, 0, 419, 427, 5, 39, 0, 0, 420, 421, 5, 34,
-		0, 0, 421, 422, 5, 38, 0, 0, 422, 423, 5, 52, 0, 0, 423, 424, 5, 46, 0,
-		0, 424, 425, 3, 62, 31, 0, 425, 426, 5, 39, 0, 0, 426, 428, 1, 0, 0, 0,
+		73, 1, 0, 0, 0, 412, 413, 5, 51, 0, 0, 413, 414, 5, 49, 0, 0, 414, 415,
+		5, 51, 0, 0, 415, 416, 5, 37, 0, 0, 416, 417, 5, 51, 0, 0, 417, 418, 5,
+		45, 0, 0, 418, 419, 3, 62, 31, 0, 419, 427, 5, 38, 0, 0, 420, 421, 5, 33,
+		0, 0, 421, 422, 5, 37, 0, 0, 422, 423, 5, 51, 0, 0, 423, 424, 5, 45, 0,
+		0, 424, 425, 3, 62, 31, 0, 425, 426, 5, 38, 0, 0, 426, 428, 1, 0, 0, 0,
 		427, 420, 1, 0, 0, 0, 428, 429, 1, 0, 0, 0, 429, 427, 1, 0, 0, 0, 429,
 		430, 1, 0, 0, 0, 430, 75, 1, 0, 0, 0, 431, 437, 3, 78, 39, 0, 432, 437,
 		3, 80, 40, 0, 433, 437, 3, 70, 35, 0, 434, 437, 3, 82, 41, 0, 435, 437,
-		5, 35, 0, 0, 436, 431, 1, 0, 0, 0, 436, 432, 1, 0, 0, 0, 436, 433, 1, 0,
+		5, 34, 0, 0, 436, 431, 1, 0, 0, 0, 436, 432, 1, 0, 0, 0, 436, 433, 1, 0,
 		0, 0, 436, 434, 1, 0, 0, 0, 436, 435, 1, 0, 0, 0, 437, 77, 1, 0, 0, 0,
-		438, 439, 5, 52, 0, 0, 439, 440, 5, 48, 0, 0, 440, 441, 5, 52, 0, 0, 441,
-		442, 5, 46, 0, 0, 442, 443, 3, 34, 17, 0, 443, 444, 5, 47, 0, 0, 444, 445,
-		3, 76, 38, 0, 445, 79, 1, 0, 0, 0, 446, 447, 5, 52, 0, 0, 447, 448, 5,
-		47, 0, 0, 448, 449, 3, 76, 38, 0, 449, 81, 1, 0, 0, 0, 450, 451, 5, 52,
-		0, 0, 451, 452, 5, 48, 0, 0, 452, 453, 5, 52, 0, 0, 453, 454, 5, 46, 0,
-		0, 454, 455, 5, 52, 0, 0, 455, 456, 5, 38, 0, 0, 456, 457, 5, 52, 0, 0,
-		457, 458, 5, 46, 0, 0, 458, 459, 3, 76, 38, 0, 459, 467, 5, 39, 0, 0, 460,
-		461, 5, 34, 0, 0, 461, 462, 5, 38, 0, 0, 462, 463, 5, 52, 0, 0, 463, 464,
-		5, 46, 0, 0, 464, 465, 3, 76, 38, 0, 465, 466, 5, 39, 0, 0, 466, 468, 1,
+		438, 439, 5, 51, 0, 0, 439, 440, 5, 47, 0, 0, 440, 441, 5, 51, 0, 0, 441,
+		442, 5, 45, 0, 0, 442, 443, 3, 34, 17, 0, 443, 444, 5, 46, 0, 0, 444, 445,
+		3, 76, 38, 0, 445, 79, 1, 0, 0, 0, 446, 447, 5, 51, 0, 0, 447, 448, 5,
+		46, 0, 0, 448, 449, 3, 76, 38, 0, 449, 81, 1, 0, 0, 0, 450, 451, 5, 51,
+		0, 0, 451, 452, 5, 47, 0, 0, 452, 453, 5, 51, 0, 0, 453, 454, 5, 45, 0,
+		0, 454, 455, 5, 51, 0, 0, 455, 456, 5, 37, 0, 0, 456, 457, 5, 51, 0, 0,
+		457, 458, 5, 45, 0, 0, 458, 459, 3, 76, 38, 0, 459, 467, 5, 38, 0, 0, 460,
+		461, 5, 33, 0, 0, 461, 462, 5, 37, 0, 0, 462, 463, 5, 51, 0, 0, 463, 464,
+		5, 45, 0, 0, 464, 465, 3, 76, 38, 0, 465, 466, 5, 38, 0, 0, 466, 468, 1,
 		0, 0, 0, 467, 460, 1, 0, 0, 0, 468, 469, 1, 0, 0, 0, 469, 467, 1, 0, 0,
 		0, 469, 470, 1, 0, 0, 0, 470, 83, 1, 0, 0, 0, 471, 472, 5, 16, 0, 0, 472,
-		473, 5, 17, 0, 0, 473, 474, 5, 52, 0, 0, 474, 476, 5, 38, 0, 0, 475, 477,
-		3, 86, 43, 0, 476, 475, 1, 0, 0, 0, 477, 478, 1, 0, 0, 0, 478, 476, 1,
-		0, 0, 0, 478, 479, 1, 0, 0, 0, 479, 480, 1, 0, 0, 0, 480, 481, 5, 39, 0,
-		0, 481, 85, 1, 0, 0, 0, 482, 483, 5, 27, 0, 0, 483, 484, 5, 52, 0, 0, 484,
-		485, 5, 31, 0, 0, 485, 486, 5, 52, 0, 0, 486, 487, 5, 43, 0, 0, 487, 507,
-		3, 62, 31, 0, 488, 489, 5, 28, 0, 0, 489, 490, 5, 52, 0, 0, 490, 491, 5,
-		31, 0, 0, 491, 492, 5, 52, 0, 0, 492, 493, 5, 43, 0, 0, 493, 507, 3, 62,
-		31, 0, 494, 495, 5, 29, 0, 0, 495, 496, 5, 52, 0, 0, 496, 497, 5, 31, 0,
-		0, 497, 498, 5, 52, 0, 0, 498, 499, 5, 43, 0, 0, 499, 507, 3, 62, 31, 0,
-		500, 501, 5, 30, 0, 0, 501, 502, 5, 52, 0, 0, 502, 503, 5, 31, 0, 0, 503,
-		504, 5, 52, 0, 0, 504, 505, 5, 43, 0, 0, 505, 507, 3, 62, 31, 0, 506, 482,
-		1, 0, 0, 0, 506, 488, 1, 0, 0, 0, 506, 494, 1, 0, 0, 0, 506, 500, 1, 0,
-		0, 0, 507, 87, 1, 0, 0, 0, 33, 91, 95, 123, 131, 146, 150, 152, 180, 187,
-		196, 204, 214, 219, 227, 238, 241, 263, 284, 292, 300, 309, 323, 337, 341,
-		349, 359, 373, 410, 429, 436, 469, 478, 506,
+		473, 5, 51, 0, 0, 473, 475, 5, 37, 0, 0, 474, 476, 3, 86, 43, 0, 475, 474,
+		1, 0, 0, 0, 476, 477, 1, 0, 0, 0, 477, 475, 1, 0, 0, 0, 477, 478, 1, 0,
+		0, 0, 478, 479, 1, 0, 0, 0, 479, 480, 5, 38, 0, 0, 480, 85, 1, 0, 0, 0,
+		481, 482, 5, 26, 0, 0, 482, 483, 5, 51, 0, 0, 483, 484, 5, 30, 0, 0, 484,
+		485, 5, 51, 0, 0, 485, 486, 5, 42, 0, 0, 486, 506, 3, 62, 31, 0, 487, 488,
+		5, 27, 0, 0, 488, 489, 5, 51, 0, 0, 489, 490, 5, 30, 0, 0, 490, 491, 5,
+		51, 0, 0, 491, 492, 5, 42, 0, 0, 492, 506, 3, 62, 31, 0, 493, 494, 5, 28,
+		0, 0, 494, 495, 5, 51, 0, 0, 495, 496, 5, 30, 0, 0, 496, 497, 5, 51, 0,
+		0, 497, 498, 5, 42, 0, 0, 498, 506, 3, 62, 31, 0, 499, 500, 5, 29, 0, 0,
+		500, 501, 5, 51, 0, 0, 501, 502, 5, 30, 0, 0, 502, 503, 5, 51, 0, 0, 503,
+		504, 5, 42, 0, 0, 504, 506, 3, 62, 31, 0, 505, 481, 1, 0, 0, 0, 505, 487,
+		1, 0, 0, 0, 505, 493, 1, 0, 0, 0, 505, 499, 1, 0, 0, 0, 506, 87, 1, 0,
+		0, 0, 33, 91, 95, 123, 131, 146, 150, 152, 180, 187, 196, 204, 214, 219,
+		227, 238, 241, 263, 284, 292, 300, 309, 323, 337, 341, 349, 359, 373, 410,
+		429, 436, 469, 477, 505,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -337,46 +337,45 @@ const (
 	ontologyParserQUIT        = 13
 	ontologyParserDOMAIN      = 14
 	ontologyParserPROCESS     = 15
-	ontologyParserKNOWLEDGE   = 16
-	ontologyParserBASE        = 17
-	ontologyParserPROPERTY    = 18
-	ontologyParserMODEL       = 19
-	ontologyParserCLASS       = 20
-	ontologyParserPHYSICAL    = 21
-	ontologyParserACTUATOR    = 22
-	ontologyParserSENSOR      = 23
-	ontologyParserTRANSLATION = 24
-	ontologyParserDEVICE      = 25
-	ontologyParserCONNECTION  = 26
-	ontologyParserESTIMATE    = 27
-	ontologyParserSENSE       = 28
-	ontologyParserCONTROL     = 29
-	ontologyParserACTUATE     = 30
-	ontologyParserUSING       = 31
-	ontologyParserLOCAL       = 32
-	ontologyParserGLOBAL      = 33
-	ontologyParserOR          = 34
-	ontologyParserEND         = 35
-	ontologyParserLPAR        = 36
-	ontologyParserRPAR        = 37
-	ontologyParserLBRA        = 38
-	ontologyParserRBRA        = 39
-	ontologyParserLSQ         = 40
-	ontologyParserRSQ         = 41
-	ontologyParserAT          = 42
-	ontologyParserEQ          = 43
-	ontologyParserASGN        = 44
-	ontologyParserCOMMA       = 45
-	ontologyParserCOLON       = 46
-	ontologyParserDOT         = 47
-	ontologyParserARROW       = 48
-	ontologyParserBANG        = 49
-	ontologyParserQUESTION    = 50
-	ontologyParserPATH        = 51
-	ontologyParserID          = 52
-	ontologyParserINT         = 53
-	ontologyParserCOMMENTS    = 54
-	ontologyParserWS          = 55
+	ontologyParserREPOSITORY  = 16
+	ontologyParserPROPERTY    = 17
+	ontologyParserMODEL       = 18
+	ontologyParserCLASS       = 19
+	ontologyParserPHYSICAL    = 20
+	ontologyParserACTUATOR    = 21
+	ontologyParserSENSOR      = 22
+	ontologyParserTRANSLATION = 23
+	ontologyParserDEVICE      = 24
+	ontologyParserCONNECTION  = 25
+	ontologyParserESTIMATE    = 26
+	ontologyParserSENSE       = 27
+	ontologyParserCONTROL     = 28
+	ontologyParserACTUATE     = 29
+	ontologyParserUSING       = 30
+	ontologyParserLOCAL       = 31
+	ontologyParserGLOBAL      = 32
+	ontologyParserOR          = 33
+	ontologyParserEND         = 34
+	ontologyParserLPAR        = 35
+	ontologyParserRPAR        = 36
+	ontologyParserLBRA        = 37
+	ontologyParserRBRA        = 38
+	ontologyParserLSQ         = 39
+	ontologyParserRSQ         = 40
+	ontologyParserAT          = 41
+	ontologyParserEQ          = 42
+	ontologyParserASGN        = 43
+	ontologyParserCOMMA       = 44
+	ontologyParserCOLON       = 45
+	ontologyParserDOT         = 46
+	ontologyParserARROW       = 47
+	ontologyParserBANG        = 48
+	ontologyParserQUESTION    = 49
+	ontologyParserPATH        = 50
+	ontologyParserID          = 51
+	ontologyParserINT         = 52
+	ontologyParserCOMMENTS    = 53
+	ontologyParserWS          = 54
 )
 
 // ontologyParser rules.
@@ -423,8 +422,8 @@ const (
 	ontologyParserRULE_pass                 = 39
 	ontologyParserRULE_global_loop          = 40
 	ontologyParserRULE_choice               = 41
-	ontologyParserRULE_knowledge_base       = 42
-	ontologyParserRULE_knowledge_base_decl  = 43
+	ontologyParserRULE_repository           = 42
+	ontologyParserRULE_repository_decl      = 43
 )
 
 // IProgramContext is an interface to support dynamic dispatch.
@@ -573,7 +572,7 @@ func (p *ontologyParser) Program() (localctx IProgramContext) {
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ontologyParserLOAD)|(1<<ontologyParserSHOW)|(1<<ontologyParserLS)|(1<<ontologyParserTRANSLATE)|(1<<ontologyParserMERMAID)|(1<<ontologyParserREMOVE)|(1<<ontologyParserTRAVERSE)|(1<<ontologyParserCONFIGURE)|(1<<ontologyParserCOMPOSE)|(1<<ontologyParserPROJECT)|(1<<ontologyParserINFO)|(1<<ontologyParserDOMAIN)|(1<<ontologyParserPROCESS)|(1<<ontologyParserKNOWLEDGE))) != 0) || (((_la-32)&-(0x1f+1)) == 0 && ((1<<uint((_la-32)))&((1<<(ontologyParserLOCAL-32))|(1<<(ontologyParserGLOBAL-32))|(1<<(ontologyParserLPAR-32))|(1<<(ontologyParserID-32)))) != 0) {
+	for (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ontologyParserLOAD)|(1<<ontologyParserSHOW)|(1<<ontologyParserLS)|(1<<ontologyParserTRANSLATE)|(1<<ontologyParserMERMAID)|(1<<ontologyParserREMOVE)|(1<<ontologyParserTRAVERSE)|(1<<ontologyParserCONFIGURE)|(1<<ontologyParserCOMPOSE)|(1<<ontologyParserPROJECT)|(1<<ontologyParserINFO)|(1<<ontologyParserDOMAIN)|(1<<ontologyParserPROCESS)|(1<<ontologyParserREPOSITORY)|(1<<ontologyParserLOCAL))) != 0) || (((_la-32)&-(0x1f+1)) == 0 && ((1<<uint((_la-32)))&((1<<(ontologyParserGLOBAL-32))|(1<<(ontologyParserLPAR-32))|(1<<(ontologyParserID-32)))) != 0) {
 		{
 			p.SetState(88)
 			p.expression(0)
@@ -808,10 +807,10 @@ func (s *ExpressionContext) Global_configuration() IGlobal_configurationContext 
 	return t.(IGlobal_configurationContext)
 }
 
-func (s *ExpressionContext) Knowledge_base() IKnowledge_baseContext {
+func (s *ExpressionContext) Repository() IRepositoryContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IKnowledge_baseContext); ok {
+		if _, ok := ctx.(IRepositoryContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -821,7 +820,7 @@ func (s *ExpressionContext) Knowledge_base() IKnowledge_baseContext {
 		return nil
 	}
 
-	return t.(IKnowledge_baseContext)
+	return t.(IRepositoryContext)
 }
 
 func (s *ExpressionContext) Load() ILoadContext {
@@ -1123,7 +1122,7 @@ func (p *ontologyParser) expression(_p int) (localctx IExpressionContext) {
 	case 5:
 		{
 			p.SetState(106)
-			p.Knowledge_base()
+			p.Repository()
 		}
 
 	case 6:
@@ -7288,78 +7287,74 @@ func (p *ontologyParser) Choice() (localctx IChoiceContext) {
 	return localctx
 }
 
-// IKnowledge_baseContext is an interface to support dynamic dispatch.
-type IKnowledge_baseContext interface {
+// IRepositoryContext is an interface to support dynamic dispatch.
+type IRepositoryContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsKnowledge_baseContext differentiates from other interfaces.
-	IsKnowledge_baseContext()
+	// IsRepositoryContext differentiates from other interfaces.
+	IsRepositoryContext()
 }
 
-type Knowledge_baseContext struct {
+type RepositoryContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyKnowledge_baseContext() *Knowledge_baseContext {
-	var p = new(Knowledge_baseContext)
+func NewEmptyRepositoryContext() *RepositoryContext {
+	var p = new(RepositoryContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = ontologyParserRULE_knowledge_base
+	p.RuleIndex = ontologyParserRULE_repository
 	return p
 }
 
-func (*Knowledge_baseContext) IsKnowledge_baseContext() {}
+func (*RepositoryContext) IsRepositoryContext() {}
 
-func NewKnowledge_baseContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Knowledge_baseContext {
-	var p = new(Knowledge_baseContext)
+func NewRepositoryContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RepositoryContext {
+	var p = new(RepositoryContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = ontologyParserRULE_knowledge_base
+	p.RuleIndex = ontologyParserRULE_repository
 
 	return p
 }
 
-func (s *Knowledge_baseContext) GetParser() antlr.Parser { return s.parser }
+func (s *RepositoryContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Knowledge_baseContext) KNOWLEDGE() antlr.TerminalNode {
-	return s.GetToken(ontologyParserKNOWLEDGE, 0)
+func (s *RepositoryContext) REPOSITORY() antlr.TerminalNode {
+	return s.GetToken(ontologyParserREPOSITORY, 0)
 }
 
-func (s *Knowledge_baseContext) BASE() antlr.TerminalNode {
-	return s.GetToken(ontologyParserBASE, 0)
-}
-
-func (s *Knowledge_baseContext) ID() antlr.TerminalNode {
+func (s *RepositoryContext) ID() antlr.TerminalNode {
 	return s.GetToken(ontologyParserID, 0)
 }
 
-func (s *Knowledge_baseContext) LBRA() antlr.TerminalNode {
+func (s *RepositoryContext) LBRA() antlr.TerminalNode {
 	return s.GetToken(ontologyParserLBRA, 0)
 }
 
-func (s *Knowledge_baseContext) RBRA() antlr.TerminalNode {
+func (s *RepositoryContext) RBRA() antlr.TerminalNode {
 	return s.GetToken(ontologyParserRBRA, 0)
 }
 
-func (s *Knowledge_baseContext) AllKnowledge_base_decl() []IKnowledge_base_declContext {
+func (s *RepositoryContext) AllRepository_decl() []IRepository_declContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IKnowledge_base_declContext); ok {
+		if _, ok := ctx.(IRepository_declContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IKnowledge_base_declContext, len)
+	tst := make([]IRepository_declContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IKnowledge_base_declContext); ok {
-			tst[i] = t.(IKnowledge_base_declContext)
+		if t, ok := ctx.(IRepository_declContext); ok {
+			tst[i] = t.(IRepository_declContext)
 			i++
 		}
 	}
@@ -7367,11 +7362,11 @@ func (s *Knowledge_baseContext) AllKnowledge_base_decl() []IKnowledge_base_declC
 	return tst
 }
 
-func (s *Knowledge_baseContext) Knowledge_base_decl(i int) IKnowledge_base_declContext {
+func (s *RepositoryContext) Repository_decl(i int) IRepository_declContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IKnowledge_base_declContext); ok {
+		if _, ok := ctx.(IRepository_declContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -7384,33 +7379,33 @@ func (s *Knowledge_baseContext) Knowledge_base_decl(i int) IKnowledge_base_declC
 		return nil
 	}
 
-	return t.(IKnowledge_base_declContext)
+	return t.(IRepository_declContext)
 }
 
-func (s *Knowledge_baseContext) GetRuleContext() antlr.RuleContext {
+func (s *RepositoryContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Knowledge_baseContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *RepositoryContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Knowledge_baseContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *RepositoryContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case ontologyVisitor:
-		return t.VisitKnowledge_base(s)
+		return t.VisitRepository(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *ontologyParser) Knowledge_base() (localctx IKnowledge_baseContext) {
+func (p *ontologyParser) Repository() (localctx IRepositoryContext) {
 	this := p
 	_ = this
 
-	localctx = NewKnowledge_baseContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 84, ontologyParserRULE_knowledge_base)
+	localctx = NewRepositoryContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 84, ontologyParserRULE_repository)
 	var _la int
 
 	defer func() {
@@ -7432,101 +7427,97 @@ func (p *ontologyParser) Knowledge_base() (localctx IKnowledge_baseContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(471)
-		p.Match(ontologyParserKNOWLEDGE)
+		p.Match(ontologyParserREPOSITORY)
 	}
 	{
 		p.SetState(472)
-		p.Match(ontologyParserBASE)
-	}
-	{
-		p.SetState(473)
 		p.Match(ontologyParserID)
 	}
 	{
-		p.SetState(474)
+		p.SetState(473)
 		p.Match(ontologyParserLBRA)
 	}
-	p.SetState(476)
+	p.SetState(475)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for ok := true; ok; ok = (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ontologyParserESTIMATE)|(1<<ontologyParserSENSE)|(1<<ontologyParserCONTROL)|(1<<ontologyParserACTUATE))) != 0) {
 		{
-			p.SetState(475)
-			p.Knowledge_base_decl()
+			p.SetState(474)
+			p.Repository_decl()
 		}
 
-		p.SetState(478)
+		p.SetState(477)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(480)
+		p.SetState(479)
 		p.Match(ontologyParserRBRA)
 	}
 
 	return localctx
 }
 
-// IKnowledge_base_declContext is an interface to support dynamic dispatch.
-type IKnowledge_base_declContext interface {
+// IRepository_declContext is an interface to support dynamic dispatch.
+type IRepository_declContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsKnowledge_base_declContext differentiates from other interfaces.
-	IsKnowledge_base_declContext()
+	// IsRepository_declContext differentiates from other interfaces.
+	IsRepository_declContext()
 }
 
-type Knowledge_base_declContext struct {
+type Repository_declContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyKnowledge_base_declContext() *Knowledge_base_declContext {
-	var p = new(Knowledge_base_declContext)
+func NewEmptyRepository_declContext() *Repository_declContext {
+	var p = new(Repository_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = ontologyParserRULE_knowledge_base_decl
+	p.RuleIndex = ontologyParserRULE_repository_decl
 	return p
 }
 
-func (*Knowledge_base_declContext) IsKnowledge_base_declContext() {}
+func (*Repository_declContext) IsRepository_declContext() {}
 
-func NewKnowledge_base_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Knowledge_base_declContext {
-	var p = new(Knowledge_base_declContext)
+func NewRepository_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Repository_declContext {
+	var p = new(Repository_declContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = ontologyParserRULE_knowledge_base_decl
+	p.RuleIndex = ontologyParserRULE_repository_decl
 
 	return p
 }
 
-func (s *Knowledge_base_declContext) GetParser() antlr.Parser { return s.parser }
+func (s *Repository_declContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Knowledge_base_declContext) ESTIMATE() antlr.TerminalNode {
+func (s *Repository_declContext) ESTIMATE() antlr.TerminalNode {
 	return s.GetToken(ontologyParserESTIMATE, 0)
 }
 
-func (s *Knowledge_base_declContext) AllID() []antlr.TerminalNode {
+func (s *Repository_declContext) AllID() []antlr.TerminalNode {
 	return s.GetTokens(ontologyParserID)
 }
 
-func (s *Knowledge_base_declContext) ID(i int) antlr.TerminalNode {
+func (s *Repository_declContext) ID(i int) antlr.TerminalNode {
 	return s.GetToken(ontologyParserID, i)
 }
 
-func (s *Knowledge_base_declContext) USING() antlr.TerminalNode {
+func (s *Repository_declContext) USING() antlr.TerminalNode {
 	return s.GetToken(ontologyParserUSING, 0)
 }
 
-func (s *Knowledge_base_declContext) EQ() antlr.TerminalNode {
+func (s *Repository_declContext) EQ() antlr.TerminalNode {
 	return s.GetToken(ontologyParserEQ, 0)
 }
 
-func (s *Knowledge_base_declContext) Local() ILocalContext {
+func (s *Repository_declContext) Local() ILocalContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ILocalContext); ok {
@@ -7542,42 +7533,42 @@ func (s *Knowledge_base_declContext) Local() ILocalContext {
 	return t.(ILocalContext)
 }
 
-func (s *Knowledge_base_declContext) SENSE() antlr.TerminalNode {
+func (s *Repository_declContext) SENSE() antlr.TerminalNode {
 	return s.GetToken(ontologyParserSENSE, 0)
 }
 
-func (s *Knowledge_base_declContext) CONTROL() antlr.TerminalNode {
+func (s *Repository_declContext) CONTROL() antlr.TerminalNode {
 	return s.GetToken(ontologyParserCONTROL, 0)
 }
 
-func (s *Knowledge_base_declContext) ACTUATE() antlr.TerminalNode {
+func (s *Repository_declContext) ACTUATE() antlr.TerminalNode {
 	return s.GetToken(ontologyParserACTUATE, 0)
 }
 
-func (s *Knowledge_base_declContext) GetRuleContext() antlr.RuleContext {
+func (s *Repository_declContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Knowledge_base_declContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *Repository_declContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Knowledge_base_declContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *Repository_declContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case ontologyVisitor:
-		return t.VisitKnowledge_base_decl(s)
+		return t.VisitRepository_decl(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *ontologyParser) Knowledge_base_decl() (localctx IKnowledge_base_declContext) {
+func (p *ontologyParser) Repository_decl() (localctx IRepository_declContext) {
 	this := p
 	_ = this
 
-	localctx = NewKnowledge_base_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 86, ontologyParserRULE_knowledge_base_decl)
+	localctx = NewRepository_declContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 86, ontologyParserRULE_repository_decl)
 
 	defer func() {
 		p.ExitRule()
@@ -7595,115 +7586,115 @@ func (p *ontologyParser) Knowledge_base_decl() (localctx IKnowledge_base_declCon
 		}
 	}()
 
-	p.SetState(506)
+	p.SetState(505)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case ontologyParserESTIMATE:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(482)
+			p.SetState(481)
 			p.Match(ontologyParserESTIMATE)
 		}
 		{
-			p.SetState(483)
+			p.SetState(482)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(484)
+			p.SetState(483)
 			p.Match(ontologyParserUSING)
 		}
 		{
-			p.SetState(485)
+			p.SetState(484)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(486)
+			p.SetState(485)
 			p.Match(ontologyParserEQ)
 		}
 		{
-			p.SetState(487)
+			p.SetState(486)
 			p.Local()
 		}
 
 	case ontologyParserSENSE:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(488)
+			p.SetState(487)
 			p.Match(ontologyParserSENSE)
 		}
 		{
-			p.SetState(489)
+			p.SetState(488)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(490)
+			p.SetState(489)
 			p.Match(ontologyParserUSING)
 		}
 		{
-			p.SetState(491)
+			p.SetState(490)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(492)
+			p.SetState(491)
 			p.Match(ontologyParserEQ)
 		}
 		{
-			p.SetState(493)
+			p.SetState(492)
 			p.Local()
 		}
 
 	case ontologyParserCONTROL:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(494)
+			p.SetState(493)
 			p.Match(ontologyParserCONTROL)
 		}
 		{
-			p.SetState(495)
+			p.SetState(494)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(496)
+			p.SetState(495)
 			p.Match(ontologyParserUSING)
 		}
 		{
-			p.SetState(497)
+			p.SetState(496)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(498)
+			p.SetState(497)
 			p.Match(ontologyParserEQ)
 		}
 		{
-			p.SetState(499)
+			p.SetState(498)
 			p.Local()
 		}
 
 	case ontologyParserACTUATE:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(500)
+			p.SetState(499)
 			p.Match(ontologyParserACTUATE)
 		}
 		{
-			p.SetState(501)
+			p.SetState(500)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(502)
+			p.SetState(501)
 			p.Match(ontologyParserUSING)
 		}
 		{
-			p.SetState(503)
+			p.SetState(502)
 			p.Match(ontologyParserID)
 		}
 		{
-			p.SetState(504)
+			p.SetState(503)
 			p.Match(ontologyParserEQ)
 		}
 		{
-			p.SetState(505)
+			p.SetState(504)
 			p.Local()
 		}
 

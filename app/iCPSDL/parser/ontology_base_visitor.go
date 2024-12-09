@@ -176,10 +176,10 @@ func (v *BaseontologyVisitor) VisitChoice(ctx *ChoiceContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseontologyVisitor) VisitKnowledge_base(ctx *Knowledge_baseContext) interface{} {
+func (v *BaseontologyVisitor) VisitRepository(ctx *RepositoryContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseontologyVisitor) VisitKnowledge_base_decl(ctx *Knowledge_base_declContext) interface{} {
+func (v *BaseontologyVisitor) VisitRepository_decl(ctx *Repository_declContext) interface{} {
 	return v.VisitChildren(ctx)
 }

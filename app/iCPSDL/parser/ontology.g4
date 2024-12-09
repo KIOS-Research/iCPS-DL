@@ -12,7 +12,7 @@ expression      :   domain
                 |   process
                 |   local_configuration
                 |   global_configuration
-                |   knowledge_base
+                |   repository
                 |   load
                 |   assignment
                 |   remove
@@ -171,10 +171,10 @@ choice          :   ID ARROW ID COLON ID LBRA ID COLON global RBRA (OR LBRA ID C
                 ;
 
 
-knowledge_base  :   KNOWLEDGE BASE ID LBRA knowledge_base_decl+ RBRA
+repository  :   REPOSITORY ID LBRA repository_decl+ RBRA
                 ;
 
-knowledge_base_decl
+repository_decl
                 :   ESTIMATE ID USING ID EQ local
                 |   SENSE ID USING ID EQ local
                 |   CONTROL ID USING ID EQ local
@@ -198,8 +198,7 @@ QUIT:               'quit';
 
 DOMAIN:             'domain';
 PROCESS:            'process';
-KNOWLEDGE:          'knowledge';
-BASE:               'base';
+REPOSITORY:          'repository';
 
 PROPERTY:           'property';
 MODEL:              'model';

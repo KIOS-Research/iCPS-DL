@@ -7,7 +7,7 @@ import "autonomic/iCPSDL/util"
  * knowledge base
  ******************************************************************************/
 
-type knowledge_base struct {
+type repository struct {
     baseNode
     domainName string
     dmn *domain
@@ -19,8 +19,8 @@ type knowledge_base struct {
     arg *arGraph
 }
 
-func newKnowledgeBase(domainName string, line int) (this *knowledge_base) {
-    this = new(knowledge_base)
+func newRepository(domainName string, line int) (this *repository) {
+    this = new(repository)
     this.init(line)
     this.domainName = domainName
     this.roles = make([]irole, 0)
@@ -31,7 +31,7 @@ func newKnowledgeBase(domainName string, line int) (this *knowledge_base) {
     return
 }
 
-func (this *knowledge_base) getController(name string) session {
+func (this *repository) getController(name string) session {
     controller, ok := this.controlAgents[name]
     if ok == false {
         return nil
@@ -39,37 +39,37 @@ func (this *knowledge_base) getController(name string) session {
     return controller.getSession()
 }
 
-func (this *knowledge_base) getActuatorClass(class string) session {
+func (this *repository) getActuatorClass(class string) session {
     for _, r := range this.actuateAgents {
         if r.getClass() == class { return r.getSession() }
     }
     return nil
 }
-func (this *knowledge_base) getEstimatorClass(class string) session {
+func (this *repository) getEstimatorClass(class string) session {
     for _, r := range this.estimateAgents {
         if r.getClass() == class { return r.getSession() }
     }
     return nil
 }
-func (this *knowledge_base) getSensorClass(class string) session {
+func (this *repository) getSensorClass(class string) session {
     for _, r := range this.senseAgents {
         if r.getClass() == class { return r.getSession() }
     }
     return nil
 }
 
-func (this *knowledge_base) setFilename(filename string) {
+func (this *repository) setFilename(filename string) {
     this.baseNode.setFilename(filename)
     for _, r := range this.roles {
         r.setFilename(filename)
     }
 }
 
-func (this *knowledge_base) add(r irole) {
+func (this *repository) add(r irole) {
     this.roles = append(this.roles, r)
 }
 
-func (this *knowledge_base) typeCheck(context *iCPSDL, log util.ErrorLog) {
+func (this *repository) typeCheck(context *iCPSDL, log util.ErrorLog) {
     dmn, ok := context.expressions[this.domainName]
     if ok == false {
         error := fmt.Sprintf("Domain %v is not defined", this.domainName)
@@ -113,7 +113,7 @@ func (this *knowledge_base) typeCheck(context *iCPSDL, log util.ErrorLog) {
   return
 }
 
-func (this *knowledge_base) execute(context *iCPSDL) (expression, util.ErrorLog) {
+func (this *repository) execute(context *iCPSDL) (expression, util.ErrorLog) {
     _, ok := context.expressions[this.domainName]
     if ok == false {
         expr, log := newLoad(this.domainName, 0).execute(context)
@@ -129,10 +129,10 @@ func (this *knowledge_base) execute(context *iCPSDL) (expression, util.ErrorLog)
     return this, log
 }
 
-func (this *knowledge_base) render() {}
+func (this *repository) render() {}
 
-func (this *knowledge_base) prettyPrint(stream *util.Stream) {
-    stream.Println("knowledge base " + this.domainName + " {" )
+func (this *repository) prettyPrint(stream *util.Stream) {
+    stream.Println("repository " + this.domainName + " {" )
     stream.Inc()
     for _, r := range this.roles {
         r.prettyPrint(stream)
@@ -142,16 +142,16 @@ func (this *knowledge_base) prettyPrint(stream *util.Stream) {
     stream.Println("}")
 }
 
-func (this *knowledge_base) getType() string {
-    return "knowledge base"
+func (this *repository) getType() string {
+    return "repository"
 }
 
-func (this *knowledge_base) getModule() string {
+func (this *repository) getModule() string {
     return "*"
 }
 
-func (this *knowledge_base) info() string {
-    s := "Type: knowledge base"
+func (this *repository) info() string {
+    s := "Type: repository"
     s += fmt.Sprintf(", Domain: %v", this.domainName)
     s += fmt.Sprintf(", Estimator agents: %v", len(this.estimateAgents))
     s += fmt.Sprintf(", Sensor agents: %v", len(this.senseAgents))
@@ -172,7 +172,7 @@ type irole interface {
     setFilename(string)
     getLine() int
     reportError(string, util.ErrorLog)
-    typeCheck(*knowledge_base,util.ErrorLog)
+    typeCheck(*repository,util.ErrorLog)
     prettyPrint(stream *util.Stream)
 }
 
@@ -208,7 +208,7 @@ func (this *role) setFilename(filename string) {
     this.sess.setFilename(filename)
 }
 
-func (this *role) typeCheck(context *knowledge_base, log util.ErrorLog) {
+func (this *role) typeCheck(context *repository, log util.ErrorLog) {
     this.sess.typeCheck(newSessionContext(context.dmn), log)
 }
 
@@ -233,7 +233,7 @@ func newEstimate(class string, name string, sess session, line int) (this *estim
     return
 }
 
-func (this *estimate) typeCheck(context *knowledge_base, log util.ErrorLog) {
+func (this *estimate) typeCheck(context *repository, log util.ErrorLog) {
     _, ok := context.dmn.models[this.class]
     if ok == false {
         error := fmt.Sprintf("Model %v is undefined", this.class)
@@ -262,7 +262,7 @@ func newSense(class string, name string, sess session, line int) (this *sense) {
     return
 }
 
-func (this *sense) typeCheck(context *knowledge_base, log util.ErrorLog) {
+func (this *sense) typeCheck(context *repository, log util.ErrorLog) {
     _, ok := context.dmn.properties[this.class]
     if ok == false {
         error := fmt.Sprintf("Property %v is undefined", this.class)
@@ -290,7 +290,7 @@ func newControl(class string, name string, sess session, line int) (this *contro
     return
 }
 
-func (this *control) typeCheck(context *knowledge_base, log util.ErrorLog) {
+func (this *control) typeCheck(context *repository, log util.ErrorLog) {
     _, ok := context.dmn.actuators[this.class]
     if ok == false {
         error := fmt.Sprintf("Actuator class %v is undefined", this.class)
@@ -318,7 +318,7 @@ func newActuate(class string, name string, sess session, line int) (this *actuat
     return
 }
 
-func (this *actuate) typeCheck(context *knowledge_base, log util.ErrorLog) {
+func (this *actuate) typeCheck(context *repository, log util.ErrorLog) {
     _, ok := context.dmn.actuators[this.class]
     if ok == false {
         error := fmt.Sprintf("Actuator class %v is undefined", this.class)

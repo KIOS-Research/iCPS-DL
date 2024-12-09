@@ -27,8 +27,8 @@ func (this *ontologyVisitor) VisitExpression(ctx *parser.ExpressionContext) expr
         return this.VisitProcess(ctx.Process().(*parser.ProcessContext))
     } else if ctx.Local_configuration() != nil {
         return this.VisitLocal_configuration(ctx.Local_configuration().(*parser.Local_configurationContext))
-    } else if ctx.Knowledge_base() != nil {
-        return this.VisitKnowledge_base(ctx.Knowledge_base().(*parser.Knowledge_baseContext))
+    } else if ctx.Repository() != nil {
+        return this.VisitRepository(ctx.Repository().(*parser.RepositoryContext))
     } else if ctx.Global_configuration() != nil {
         return this.VisitGlobal_configuration(ctx.Global_configuration().(*parser.Global_configurationContext))
     } else if ctx.Load() != nil {
@@ -137,11 +137,11 @@ func (this *ontologyVisitor) VisitTraverse(ctx *parser.TraverseContext) *travers
 
 func (this *ontologyVisitor) VisitConfigure(ctx *parser.ConfigureContext) *configureExpression {
     line := ctx.CONFIGURE().GetSymbol().GetLine()
-    kb := this.VisitExpression(ctx.Expression(0).(*parser.ExpressionContext))
+    rep := this.VisitExpression(ctx.Expression(0).(*parser.ExpressionContext))
     trav := this.VisitExpression(ctx.Expression(1).(*parser.ExpressionContext))
     controller := ctx.ID(0).GetText()
     actuator := ctx.ID(1).GetText()
-    return newConfigure(kb, trav, controller, actuator, line)
+    return newConfigure(rep, trav, controller, actuator, line)
 }
 
 func (this *ontologyVisitor) VisitCompose(ctx *parser.ComposeContext) *composeExpression {
@@ -524,21 +524,21 @@ func (this *ontologyVisitor) VisitChoice(ctx *parser.ChoiceContext) *choice {
 }
 
 /*****************
-  knowledge base
+  repository
  ****************/
 
-func (this *ontologyVisitor) VisitKnowledge_base(ctx *parser.Knowledge_baseContext) *knowledge_base {
-    line := ctx.BASE().GetSymbol().GetLine()
+func (this *ontologyVisitor) VisitRepository(ctx *parser.RepositoryContext) *repository {
+    line := ctx.REPOSITORY().GetSymbol().GetLine()
     prdgm := ctx.ID().GetText()
-  	kb := newKnowledgeBase(prdgm, line)
-    for _, decl := range ctx.AllKnowledge_base_decl() {
-        elem := this.VisitKnowledge_base_decl(decl.(*parser.Knowledge_base_declContext))
-        kb.add(elem)
+  	rep := newRepository(prdgm, line)
+    for _, decl := range ctx.AllRepository_decl() {
+        elem := this.VisitRepository_decl(decl.(*parser.Repository_declContext))
+        rep.add(elem)
     }
-    return kb
+    return rep
 }
 
-func (this *ontologyVisitor) VisitKnowledge_base_decl(ctx *parser.Knowledge_base_declContext) irole {
+func (this *ontologyVisitor) VisitRepository_decl(ctx *parser.Repository_declContext) irole {
     class := ctx.ID(0).GetText()
     name := ctx.ID(1).GetText()
     sess := this.VisitLocal(ctx.Local().(*parser.LocalContext))

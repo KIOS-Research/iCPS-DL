@@ -32,13 +32,13 @@ func SemanticReasoningEngine(stateServ *stateService, pumpChan chan *labelSignal
     fmt.Println("[Semantic Reasoning Engine] Starting.")
 
     command := "wdn := load example/wdn\n"
-    command += "kb := load example/kb\n"
+    command += "agents := load example/agents\n"
     command += "simple := load example/simple"
     iCPSDLChannel <- &iCPSDL.ServiceMessage{Jmap: nil, Request: "initalise", Command: command, Process: "", State: "", ConfArgs: "", Ack: ""}
     <- iCPSDLChannel
 
     fmt.Println("[Semantic Reasoning Engine] Request control-loop configuration description from iCPSDL.")
-    iCPSDLChannel <- &iCPSDL.ServiceMessage{Jmap: nil, Request: "configure", Command: "", Process: "simple", State: "t.head", ConfArgs: "kb controller u", Ack: ""}
+    iCPSDLChannel <- &iCPSDL.ServiceMessage{Jmap: nil, Request: "configure", Command: "", Process: "simple", State: "t.head", ConfArgs: "agents controller u", Ack: ""}
     reply := <-iCPSDLChannel
     fmt.Println("[Semantic Reasoning Engine] Receive control-loop configuration description from iCPSDL.")
     fmt.Println(reply.Ack)
@@ -53,7 +53,7 @@ func SemanticReasoningEngine(stateServ *stateService, pumpChan chan *labelSignal
                 //fmt.Println("[Semantic Reasoning Engine] Receiving request for control-loop reconfiguration.")
 
                 fmt.Println("[Semantic Reasoning Engine] Request new control-loop configuration description from iCPSDL.")
-                iCPSDLChannel <- &iCPSDL.ServiceMessage{Jmap: nil, Request: "configure", Command: "", Process: "faulty", State: "t.head", ConfArgs: "kb controller u", Ack: ""}
+                iCPSDLChannel <- &iCPSDL.ServiceMessage{Jmap: nil, Request: "configure", Command: "", Process: "faulty", State: "t.head", ConfArgs: "agents controller u", Ack: ""}
                 reply := <-iCPSDLChannel
 
                 fmt.Println("[Semantic Reasoning Engine] Receive new control-loop configuration description from iCPSDL.")
