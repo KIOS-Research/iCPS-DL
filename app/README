@@ -35,7 +35,7 @@ compiles the Go program.
 
 	executes a very basic simulation of the running example supervised by a proof-of-concept implementation of the autonomic supervisor.
 
-* The running simulation deploys a set of ditributed agents communicating using Go channels to control a water distribution network simulation.
+* The running simulation deploys a set of distributed agents communicating using Go channels to control a water distribution network simulation.
 
 * The event manager module of the autonomic supervisor introduces failures at specific points of the simulation and invokes the semantic reasoning engine to reconfigure the control loop.
 

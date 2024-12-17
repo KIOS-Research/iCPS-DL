@@ -47,7 +47,8 @@ func Service(eventChannel chan *ServiceMessage, engineChannel chan *ServiceMessa
                         expr, _ := iCPSDL.handleRequest(command)
                         f := expr.(*forest)
                         exprs := make([]expression, len(f.trees))
-                        min := 0
+                        min_len := 0
+                        min_index := 0
                         var min_expr *local = nil
                         output := ""
                         expr_output := ""
@@ -55,12 +56,16 @@ func Service(eventChannel chan *ServiceMessage, engineChannel chan *ServiceMessa
                             command = fmt.Sprintf("lc%v := configure trees[%v] %v\n", i, i, input.ConfArgs)
                             exprs[i], output = iCPSDL.handleRequest(command)
                             lc := exprs[i].(*local)
-                            if min_expr == nil || len(lc.configuration) < min {
+                            if min_expr == nil || len(lc.configuration) < min_len {
+                                min_index = i
                                 min_expr = lc
                                 expr_output = output
-                                min = len(lc.configuration)
+                                min_len = len(lc.configuration)
                             }
                         }
+                        command = fmt.Sprintf("mermaid trees[%v]", min_index)
+                        iCPSDL.handleRequest(command)
+                        fmt.Println("[iCPSDL Service] Select control loop configuration. Create a corresponding mermaid diagram.")
                         jmap := min_expr.json()
                         //fmt.Println(jmap, "\n")
                         engineChannel <- &ServiceMessage{Jmap: jmap, Request: "", Command: "", Process: "", State: "", ConfArgs: "", Ack: expr_output}

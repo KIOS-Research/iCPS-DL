@@ -1,7 +1,8 @@
 package main
 
-//import "fmt"
+import "fmt"
 import "os"
+import "io/ioutil"
 import "autonomic/industrial_process"
 import "autonomic/iCPSDL"
 
@@ -18,6 +19,15 @@ func main() {
 }
 
 func simulation() {
+
+   data, err := ioutil.ReadFile("./res/preamble.res")
+   if err != nil {
+      fmt.Println("Fatal Error. Cannot find specified resources.")
+      return
+   }
+
+   fmt.Print(string(data))
+
     plant, stateServ, pumpChan := industrial_process.NewPlant(3, 15, 100, 10)
 
     distribution := [][] float64 {
