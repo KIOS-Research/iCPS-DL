@@ -113,7 +113,7 @@ removes name `<identifier>` from memory. Returns the result of `<identifier>`.
 translates the *process* returned by `<command>` into an *analytical redundancy graph* and returns the latter.
 
 ### traverse an analytical redundancy graph
-		translate <node>.<property> <command>
+		traverse <node>.<property> <command>
 traverses the *analytical redundancy graph* returned by `<command>` and finds all *analytical redundancy trees* rooted on node `<node>.<property>`. It returns an *analytical redundancy forest*.
 
 ### configure an analytical redundancy tree
@@ -125,5 +125,5 @@ constructs and returns a *local configuration* that implements the *analytical r
 composes and returns a *global configuration* from *local configuration* `<command>`.
 
 ### project a global context
-		compose <command>
+		project <command>
 projects and returns a *local configuration* from *global configuration* `<command>`.

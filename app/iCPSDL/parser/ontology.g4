@@ -83,7 +83,7 @@ type            :   ID LBRA ID (COMMA ID)* RBRA
 model           :   MODEL ID (COMMA ID)*
                 ;
 
-class           :   (PHYSICAL | ACTUATOR) ID LPAR (ID (COMMA ID)*)? RPAR COLON internal_edge (COMMA internal_edge)
+class           :   (PHYSICAL | ACTUATOR) ID LPAR (ID (COMMA ID)*)? RPAR (COLON internal_edge (COMMA internal_edge))?
                 ;
 
 internal_edge   :   ID ARROW ID
