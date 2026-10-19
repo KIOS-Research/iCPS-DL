@@ -119,8 +119,8 @@ translates the *process* returned by `<command>` into an *analytical redundancy 
 traverses the *analytical redundancy graph* returned by `<command>` and finds all *analytical redundancy trees* rooted on node `<node>.<property>`. It returns an *analytical redundancy forest*.
 
 ### configure an analytical redundancy tree
-		configure <command1> <command2> <controller> <actuator>
-constructs and returns a *local configuration* that implements the *analytical redundancy tree* returned by `<command1>`, and inputs the result to controller <controller> that controls actuator <actuator>. The command takes local sessions from *Knowledge base* `<command2>`.
+		configure <controller> <command1> <command*> <actuator*>
+constructs and returns a *local configuration* that implements the controller `<controller>` from repository `<command1>` which controls actuators from list `<actuator*>`. It uses *analytical redundancy trees* returned by list `<command*>`.
 
 ### compose a local context
 		compose <command>
