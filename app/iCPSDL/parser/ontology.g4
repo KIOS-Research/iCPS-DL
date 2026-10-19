@@ -51,7 +51,7 @@ translate       :   TRANSLATE expression
 traverse        :   TRAVERSE ID DOT ID expression
                 ;
 
-configure       :   CONFIGURE expression expression ID ID
+configure       :   CONFIGURE ID expression LSQ expression (COMMA expression)* RSQ LSQ ID (COMMA ID)* RSQ
                 ;
 
 compose         :   COMPOSE expression

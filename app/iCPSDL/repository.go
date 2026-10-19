@@ -16,7 +16,6 @@ type repository struct {
     senseAgents map[string]*sense
     controlAgents map[string]*control
     actuateAgents map[string]*actuate
-    arg *arGraph
 }
 
 func newRepository(domainName string, line int) (this *repository) {
@@ -148,6 +147,54 @@ func (this *repository) getType() string {
 
 func (this *repository) getModule() string {
     return "*"
+}
+
+func (this *repository) configure(controller string, lc *local, trees []*arTree, actuators []string, log util.ErrorLog) *local {
+    tree := trees[0]
+    controllerSubstitutionMap := make(map[string]string)
+    for i, actuator := range actuators {
+        act, ok := tree.proc.actuators[actuator]
+        if ok == false {
+            error := fmt.Sprintf("Actuator %v not found.", actuator)
+            log.Add(util.NewExecutionException(error))
+            return nil
+        }
+
+        actuatorClass := act.getClass().name
+        //TODO: add additional roles, as they arise from roles that are already added
+        actSession := this.getActuatorClass(actuatorClass)
+        if actSession == nil {
+            error := fmt.Sprintf("Actuator session class %v not found.", actuatorClass)
+            log.Add(util.NewExecutionException(error))
+            return nil
+        }
+        substitutionMap := make(map[string]string)
+        substitutionMap["producer1"] = controller
+        actSession = actSession.rename(substitutionMap)
+
+        consumer := fmt.Sprintf("consumer%v", i + 1)
+        controllerSubstitutionMap[consumer] = actuator
+        lc.add(actuator, actSession)
+    }
+
+    controlSession := this.getController(controller)
+    if controlSession == nil {
+        error := fmt.Sprintf("Controller %v not found.", controller)
+        log.Add(util.NewExecutionException(error))
+        return nil
+    }
+
+    for i, tree := range trees {
+        agent := tree.root.configure(this, lc, controller, fmt.Sprintf("_%v", i), log)
+        if log.HasErrors() {
+            return nil
+        }
+        producer := fmt.Sprintf("producer%v", i + 1)
+        controllerSubstitutionMap[producer] = agent
+    }
+    controlSession = controlSession.rename(controllerSubstitutionMap)
+    lc.add(controller, controlSession)
+    return lc
 }
 
 func (this *repository) info() string {

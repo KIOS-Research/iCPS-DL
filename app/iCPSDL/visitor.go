@@ -137,11 +137,22 @@ func (this *ontologyVisitor) VisitTraverse(ctx *parser.TraverseContext) *travers
 
 func (this *ontologyVisitor) VisitConfigure(ctx *parser.ConfigureContext) *configureExpression {
     line := ctx.CONFIGURE().GetSymbol().GetLine()
-    rep := this.VisitExpression(ctx.Expression(0).(*parser.ExpressionContext))
-    trav := this.VisitExpression(ctx.Expression(1).(*parser.ExpressionContext))
     controller := ctx.ID(0).GetText()
-    actuator := ctx.ID(1).GetText()
-    return newConfigure(rep, trav, controller, actuator, line)
+    repo := this.VisitExpression(ctx.Expression(0).(*parser.ExpressionContext))
+
+    trees := make([]expression, len(ctx.AllExpression()) - 1)
+    for i := 1; i < len(ctx.AllExpression()); i++ {
+        trees[i - 1] = this.VisitExpression(ctx.Expression(i).(*parser.ExpressionContext))
+    }
+
+    actuators := make([]string, len(ctx.AllID()) - 1)
+    for i := 1; i < len(ctx.AllID()); i++ {
+        actuators[i - 1] = ctx.ID(i).GetText()
+    }
+
+    // rep := this.VisitExpression(ctx.Expression(1).(*parser.ExpressionContext))
+    // actuator := ctx.ID(1).GetText()
+    return newConfigure(controller, repo, trees, actuators, line)
 }
 
 func (this *ontologyVisitor) VisitCompose(ctx *parser.ComposeContext) *composeExpression {

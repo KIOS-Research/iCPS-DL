@@ -292,17 +292,18 @@ func (this *traverseExpression) prettyPrint(stream *util.Stream) {
 
 type configureExpression struct {
     expressionImpl
-    rep expression
+    expressions []expression
     controller string
-    actuator string
+    actuators []string
 }
 
-func newConfigure(expr expression, rep expression, controller string, actuator string, line int) (this *configureExpression) {
+func newConfigure(controller string, kb expression, expressions []expression, actuators []string, line int) (this *configureExpression) {
   this = new(configureExpression)
-  this.newExpression(expr, line)
-  this.rep = rep
+
+  this.newExpression(kb, line)
   this.controller = controller
-  this.actuator = actuator
+  this.expressions = expressions
+  this.actuators = actuators
   return
 }
 
@@ -311,32 +312,48 @@ func (this *configureExpression) execute(context *iCPSDL) (expression, util.Erro
     if log.HasErrors() {
         return nil, log
     }
-    art, ok := executed.(*arTree)
+    kb, ok :=executed.(*repository)
     if ok == false {
-        error := fmt.Sprintf("%v %v is not a state estimation redundancy tree.", util.CapitaliseFirst(executed.getType()), this.getModule())
-        this.reportCommandLineError(error, log)
-        return nil, log
-    }
-    executed, log = this.rep.execute(context)
-    if log.HasErrors() {
-        return nil, log
-    }
-    rep, ok := executed.(*repository)
-    if ok == false {
-        error := fmt.Sprintf("%v %v is not a agent repository.", util.CapitaliseFirst(this.rep.getType()), this.rep.getModule())
+        error := fmt.Sprintf("%v %v is not a repository.", util.CapitaliseFirst(executed.getType()), this.getModule())
         this.reportCommandLineError(error, log)
         return nil, log
     }
 
-    this.executed = art.configure(rep, this.controller, this.actuator, log)
+    trees := make([]*arTree, len(this.expressions))
+
+    for i, expr := range this.expressions {
+        executed, log := expr.execute(context)
+        if log.HasErrors() {
+            return nil, log
+        }
+        art, ok := executed.(*arTree)
+        if ok == false {
+            error := fmt.Sprintf("%v %v is not a state estimation redundancy tree.", util.CapitaliseFirst(executed.getType()), this.getModule())
+            this.reportCommandLineError(error, log)
+            return nil, log
+        }
+        trees[i] = art
+    }
+
+    lc := newLocal(0)
+    this.executed = kb.configure(this.controller, lc, trees, this.actuators, log)
     return this.executed, log
 }
 
 func (this *configureExpression) prettyPrint(stream *util.Stream) {
     stream.Print("configure ")
     this.expressionImpl.prettyPrint(stream)
-    stream.Print(" ")
-    this.rep.prettyPrint(stream)
+    stream.Print(" [")
+    for i, expr := range this.expressions {
+        if i != 0 { stream.Print(", ") }
+        expr.prettyPrint(stream)
+    }
+    stream.Print("] [")
+    for i, actuator := range this.actuators {
+        if i != 0 { stream.Print(", ") }
+        stream.Print(actuator)
+    }
+    stream.Print("]")
 }
 
 /*****************************************************************************

@@ -11,13 +11,13 @@ seg := translate simple
 trees := traverse t.head seg
 
 # configure the control loops corresponding to state estimation trees
-lc0 := configure trees[0] agents controller u
-lc1 := configure trees[1] agents controller u
-lc2 := configure trees[2] agents controller u
-lc3 := configure trees[3] agents controller u
-lc4 := configure trees[4] agents controller u
-lc5 := configure trees[5] agents controller u
-lc6 := configure trees[6] agents controller u
+lc0 := configure controller agents [trees[0]] [u]
+lc1 := configure controller agents [trees[1]] [u]
+lc2 := configure controller agents [trees[2]] [u]
+lc3 := configure controller agents [trees[3]] [u]
+lc4 := configure controller agents [trees[4]] [u]
+lc5 := configure controller agents [trees[5]] [u]
+lc6 := configure controller agents [trees[6]] [u]
 
 
 # validate liveness
@@ -48,8 +48,8 @@ seg := translate simple
 newTrees := traverse t.head seg
 
 # configure the control loops corresponding to state estimation trees
-newlc0 := configure newTrees[0] agents controller u
-newlc1 := configure newTrees[1] agents controller u
+newlc0 := configure controller agents [newTrees[0]] [u] # newTrees[0] agents controller u
+newlc1 := configure controller agents [newTrees[1]] [u] # newTrees[1] agents controller u
 
 # mermaid representation
 mermaid newTrees[0]

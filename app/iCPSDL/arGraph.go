@@ -13,7 +13,7 @@ type isegNode interface {
     getChild() isegNode
     addNeighbour(isegNode)
     addReverse(isegNode)
-    configure(*repository, *local, string, util.ErrorLog) string
+    configure(*repository, *local, string, string, util.ErrorLog) string
     prettyPrint(stream *util.Stream)
     mermaid(stream *util.Stream)
     toString() string
@@ -80,8 +80,8 @@ func (this *sensorNode) addReverse(n isegNode) {
     this.reverse[n.toString()] = n
 }
 
-func (this *sensorNode) configure(rep *repository, lc *local, controller string, log util.ErrorLog) string {
-    name := this.toString()
+func (this *sensorNode) configure(rep *repository, lc *local, controller string, state string, log util.ErrorLog) string {
+    name := this.toString() + state
     comp := this.component.(*sensorComp)
     class := comp.property.getName()
     sess := rep.getSensorClass(class)
@@ -93,7 +93,7 @@ func (this *sensorNode) configure(rep *repository, lc *local, controller string,
     grandParent := this.getParent().getParent()
     adv := controller
     if grandParent != nil {
-        adv = grandParent.toString()
+        adv = grandParent.toString() + state
     }
     substitutionMap := make(map[string]string)
     substitutionMap["consumer1"] = adv
@@ -136,17 +136,17 @@ func (this *componentNode) addReverse(n isegNode) {
     this.reverse[n.toString()] = n
 }
 
-func (this *componentNode) configure(rep *repository, lc *local, controller string, log util.ErrorLog) string {
+func (this *componentNode) configure(rep *repository, lc *local, controller string, state string, log util.ErrorLog) string {
     _, ok := this.model.(*property)
     if ok == true {
         child := this.getChild()
         name := ""
         if child != nil {
-            name = child.configure(rep, lc, controller, log)
+            name = child.configure(rep, lc, controller, state, log)
         }
         return name
     }
-    name := this.toString()
+    name := this.toString() + state
     class := this.model.getName()
     sess := rep.getEstimatorClass(class)
     if sess == nil {
@@ -158,21 +158,21 @@ func (this *componentNode) configure(rep *repository, lc *local, controller stri
     substitutionMap := make(map[string]string)
 
     for _, child := range this.reverse {
-        child.configure(rep, lc, controller, log)
+        child.configure(rep, lc, controller, state, log)
         if log.HasErrors() {
             return ""
         }
         grandChild := child.getChild()
         if grandChild != nil {
             producer := fmt.Sprintf("producer%v", i)
-            substitutionMap[producer] = grandChild.toString()
+            substitutionMap[producer] = grandChild.toString() + state
             i += 1
         }
     }
     grandParent := this.getParent().getParent()
     adv := controller
     if grandParent != nil {
-        adv = grandParent.toString()
+        adv = grandParent.toString() + state
     }
     substitutionMap["consumer1"] = adv
     sess = sess.rename(substitutionMap)
@@ -442,47 +442,6 @@ func (this *arTree) clone() *arTree {
        tree.addEdge(e.node1, e.node2)
     }
     return tree
-}
-
-func (this *arTree) configure(rep *repository, controller string, actuator string, log util.ErrorLog) *local {
-    lc := newLocal(0)
-
-    act, ok := this.proc.actuators[actuator]
-    if ok == false {
-        error := fmt.Sprintf("Actuator %v not found.", actuator)
-        log.Add(util.NewExecutionException(error))
-        return nil
-    }
-
-    actuatorClass := act.getClass().name
-    //TODO: add additional roles, as they arise from roles that are already added
-    actSession := rep.getActuatorClass(actuatorClass)
-    if actSession == nil {
-        error := fmt.Sprintf("Actuator class %v not found.", actuatorClass)
-        log.Add(util.NewExecutionException(error))
-        return nil
-    }
-    substitutionMap := make(map[string]string)
-    substitutionMap["producer1"] = controller
-    actSession = actSession.rename(substitutionMap)
-    lc.add(actuator, actSession)
-
-    controlSession := rep.getController(controller)
-    if controlSession == nil {
-        error := fmt.Sprintf("Controller %v not found.", controller)
-        log.Add(util.NewExecutionException(error))
-        return nil
-    }
-    substitutionMap = make(map[string]string)
-    substitutionMap["consumer1"] = actuator
-    producer := this.root.configure(rep, lc, controller, log)
-    if log.HasErrors() {
-        return nil
-    }
-    substitutionMap["producer1"] = producer
-    controlSession = controlSession.rename(substitutionMap)
-    lc.add(controller, controlSession)
-    return lc
 }
 
 func (this *arTree) getType() string {
