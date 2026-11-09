@@ -1,0 +1,49 @@
+repository wdn {
+	estimate junction_mass using
+          jmass = rec. producer1? flow. consumer1! flow. rec
+
+	estimate junction_3_mass using
+          j_3_mass = rec. producer1?flow. producer2?flow. consumer1!flow. rec
+
+	estimate demand_junction_1_mass using
+          dj_1_mass = rec. producer1?flow. consumer1!flow. rec
+
+	estimate demand_junction_2_mass using
+          dj_2_mass = rec. producer1?flow. producer2?flow. consumer1!flow. rec
+
+  estimate link_energy using
+          lenergy = rec. producer1?pressure. producer2?pressure. consumer1!flow. rec
+
+  estimate flow_energy using
+          lflow = rec. producer1?flow. producer2?pressure. consumer1!pressure. rec
+
+  estimate tank_1_mass using
+          t_1_mass = rec. producer1?flow. producer2?flow. producer3? flow.producer4? flow. consumer1!pressure. rec
+
+  estimate tank_2_mass using
+          t_2_mass = rec. producer1?flow. consumer1!pressure. rec
+
+  actuate pump using
+          pumpActuator = rec. producer1? signal { ON: rec } or { OFF: rec }
+
+  actuate supervisor using
+        svisor = rec. producer1?detect {Normal: rec} or { Error: rec }
+
+  sense pressure using
+          pressureSensor = rec. consumer1! pressure. rec
+
+  sense flow using
+          flowSensor = rec. consumer1! flow. rec
+
+  control pump using
+          controller =	rec. producer1? pressure. producer2? pressure. consumer1!signal { ON: rec } or { OFF: rec }
+  
+  control pump using
+          controller2 =	rec. producer1? pressure. consumer1!signal { ON: rec } or { OFF: rec } 
+
+  #control pump using
+  #        fault_detector = rec. producer1?pressure. producer2?pressure. producer3?pressure. producer4?pressure. consumer1!signal { ON: rec } or { OFF: rec }
+
+  control supervisor using
+          fault_detector = rec. producer1?pressure. producer2?pressure. producer3?pressure. producer4?pressure. consumer1!detect { Normal: rec } or { Error: rec }
+}

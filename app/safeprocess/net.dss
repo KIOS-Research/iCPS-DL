@@ -1,0 +1,84 @@
+process wdn {
+    # hardware
+    device    dev1, dev2, dev3, dev4
+
+    physical  j4, j5, j9,  
+              j10          junction
+
+    physical  j8          junction_3
+
+    physical  j12         demand_junction_1
+    physical  j11         demand_junction_2
+
+    physical  p2, p4, p5,
+              p13, p7, p8,
+              p9          pipe
+
+    physical  t1          tank_1
+    physical  t2          tank_2
+
+    physical r1, r2, r3   reservoir
+
+
+    # actuator
+    actuator  u1@dev1     pump
+    actuator  u2@dev2     pump
+    actuator  u3@dev3     pump
+    actuator  b@dev4      pump
+
+
+    # supervisor as actuator
+    actuator 	sv@dev1			supervisor
+
+    # sensors
+    sensor    sp2@dev1    flow
+    sensor    sp5@dev3    flow
+    sensor    sp13@dev3   flow
+    sensor    st1@dev3    pressure
+    sensor    sp7@dev4,
+              sp9@dev4    flow
+    sensor    sj9@dev4    pressure
+    sensor    st2@dev4    pressure
+
+    # connection r1 => t1
+    conn      r1 -> u1,
+              u1 -> j4,
+              j4 -> p2,
+              p2 -> t1
+
+    # connection r2 => j8
+    conn      r2 -> u2,
+              u2 -> j5,
+              j5 -> p4,
+              p4 -> j8
+
+    # connection r3 => t1
+    conn      r3 -> u3,
+              u3 -> j8,
+              j8 -> p5,
+              p5 -> t1
+
+    # connection t1 => j12
+    conn      t1 -> p13,
+              p13 -> j12
+
+    # connection t1 => t2
+    conn      t1 -> p7,
+              p7 -> j9,
+              j9 -> b,
+              b -> j10,
+              j10 -> p8,
+              p8 -> j11,
+              j11 -> p9,
+              p9 -> t2
+
+    # sensor connections
+    conn      p2 -> sp2,
+              p5 -> sp5,
+              t1 -> st1,
+              p13 -> sp13,
+              p7 -> sp7,
+              j9 -> sj9,
+              p9 -> sp9,
+              t2 -> st2
+}

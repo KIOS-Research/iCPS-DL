@@ -8,7 +8,7 @@ import "autonomic/iCPSDL/util"
  ***********************/
 
 type isegNode interface {
-    clone() isegNode
+    copy() isegNode
     getParent() isegNode
     getChild() isegNode
     addNeighbour(isegNode)
@@ -67,7 +67,7 @@ func newSensorNode(component icomponent) (this *sensorNode) {
     return
 }
 
-func (this *sensorNode) clone() isegNode {
+func (this *sensorNode) copy() isegNode {
     return newSensorNode(this.component)
 }
 
@@ -123,7 +123,7 @@ func newComponentNode(component icomponent, model imodel) (this *componentNode) 
     return
 }
 
-func (this *componentNode) clone() isegNode {
+func (this *componentNode) copy() isegNode {
     return newComponentNode(this.component, this.model)
 }
 
@@ -302,20 +302,25 @@ func (this *arGraph) traverseProperty(tree *arTree, rootName string, log util.Er
         case *componentNode:
             switch root.model.(type) {
                 case *property:
-                    tree.addNode(root)
+                    // tree.addNode(root)
                     for _, nei := range root.reverse {
                         tmpTree := tree.clone()
+                        r := root.copy()
+                        tmpTree.addNode(r)
                         _, ok := tmpTree.nodes[nei.toString()]
                         if ok == true { continue }
                         tmpTree.addNode(nei)
-                        tmpTree.addEdge(nei, root)
+                        // tmpTree.addEdge(nei, root)
+                        tmpTree.addEdge(nei, r)
+                        r.addNeighbour(nei)
                         tmpForest := this.traverseModel(tmpTree, root, nei.toString(), log)
                         if log.HasErrors() { return nil }
                         forest.addForest(tmpForest)
                     }
-                    if len(root.reverse) == 0 {
-                        forest.addTree(tree)
-                    }
+                    //Uncomment when initial properties are needed!
+                    // if len(root.reverse) == 0 {
+                    //     forest.addTree(tree)
+                    // }
                 case *enumProperty:
                     error := fmt.Sprintf("Expecting a property node, but found enumeration node: %v.", root.toString())
                     log.Add(util.NewExecutionException(error))
@@ -426,7 +431,7 @@ type arTree struct {
 func newArTree(root isegNode, proc *process) (this *arTree) {
    this = new(arTree)
    this.proc = proc
-   this.root = root.clone()
+   this.root = root.copy()
    this.nodes = make(map[string]isegNode)
    this.edges = make(map[string]*argEdge)
    this.addNode(this.root)
@@ -436,7 +441,7 @@ func newArTree(root isegNode, proc *process) (this *arTree) {
 func (this *arTree) clone() *arTree {
     tree := newArTree(this.root, this.proc)
     for _, n := range this.nodes {
-        tree.addNode(n.clone())
+        tree.addNode(n.copy())
     }
     for _, e := range this.edges {
        tree.addEdge(e.node1, e.node2)

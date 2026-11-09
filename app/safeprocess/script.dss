@@ -1,0 +1,17 @@
+wdn := load well_net/wdn
+net := load well_net/net
+repo := load well_net/repo
+
+arg := translate net
+
+f1 := traverse t1.pressure arg
+f2 := traverse t2.pressure arg
+
+mermaid f1[0]
+mermaid f1[1]
+mermaid f1[2]
+
+mermaid f2[0]
+mermaid f2[1]
+
+

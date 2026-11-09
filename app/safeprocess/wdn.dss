@@ -1,0 +1,210 @@
+domain {
+  # properties
+  ####################
+
+  property flow, pressure, signal {ON, OFF}, detect {Normal, Error}, command {Continue, Terminate}
+
+  # estimation model
+  ####################
+
+  model   junction_mass,
+          junction_3_mass,
+          demand_junction_1_mass,
+          demand_junction_2_mass,
+          link_energy,
+          flow_energy,
+          tank_1_mass,
+          tank_2_mass
+
+  # physical classes
+  ###################
+
+  physical junction(pressure, junction_mass)
+  physical junction_3(pressure, junction_3_mass)
+
+  physical demand_junction_1(pressure, flow, demand_junction_1_mass):
+          demand_junction_1_mass -> flow,
+          flow -> demand_junction_1_mass
+
+  physical demand_junction_2(pressure, flow, demand_junction_2_mass):
+          demand_junction_2_mass -> flow,
+          flow -> demand_junction_2_mass
+
+  physical pipe(flow, link_energy, flow_energy):
+        link_energy -> flow,
+        # HERE
+        flow -> flow_energy
+
+  physical tank_1(pressure, tank_1_mass):
+        tank_1_mass -> pressure
+
+  physical tank_2(pressure, tank_2_mass):
+        tank_2_mass -> pressure
+
+  physical reservoir(pressure)
+
+  # physical classes
+  ###################
+
+  actuator pump(flow, link_energy):
+      link_energy -> flow
+
+  actuator supervisor()
+
+
+  # translation
+  ##############################
+
+
+  # translate pipe <-> junction
+  ###############################
+
+  translation junction -> pipe:
+      pipe.flow -> junction.junction_mass,
+      junction.junction_mass -> pipe.flow,
+      junction.pressure -> pipe.link_energy,
+      # HERE
+      junction.pressure -> pipe.flow_energy
+
+  translation pipe -> junction:
+      pipe.flow -> junction.junction_mass,
+      junction.junction_mass -> pipe.flow,
+      junction.pressure -> pipe.link_energy,
+      # HERE
+      junction.pressure -> pipe.flow_energy
+
+  translation junction_3 -> pipe:
+      pipe.flow -> junction_3.junction_3_mass,
+      junction_3.junction_3_mass -> pipe.flow,
+      junction_3.pressure -> pipe.link_energy,
+      # HERE
+      junction_3.pressure -> pipe.flow_energy
+
+  translation pipe -> junction_3:
+      pipe.flow -> junction_3.junction_3_mass,
+      junction_3.junction_3_mass -> pipe.flow,
+      junction_3.pressure -> pipe.link_energy,
+      # HERE
+      junction_3.pressure -> pipe.flow_energy
+
+  translation demand_junction_1 -> pipe:
+      pipe.flow -> demand_junction_1.demand_junction_1_mass,
+      demand_junction_1.demand_junction_1_mass -> pipe.flow,
+      demand_junction_1.pressure -> pipe.link_energy,
+      # HERE
+      demand_junction_1.pressure -> pipe.flow_energy
+
+  translation pipe -> demand_junction_1:
+      pipe.flow -> demand_junction_1.demand_junction_1_mass,
+      demand_junction_1.demand_junction_1_mass -> pipe.flow,
+      demand_junction_1.pressure -> pipe.link_energy,
+      # HERE
+      demand_junction_1.pressure -> pipe.flow_energy
+
+  translation demand_junction_2 -> pipe:
+      pipe.flow -> demand_junction_2.demand_junction_2_mass,
+      demand_junction_2.demand_junction_2_mass -> pipe.flow,
+      demand_junction_2.pressure -> pipe.link_energy,
+      # HERE
+      demand_junction_2.pressure -> pipe.flow_energy
+
+  translation pipe -> demand_junction_2:
+      pipe.flow -> demand_junction_2.demand_junction_2_mass,
+      demand_junction_2.demand_junction_2_mass -> pipe.flow,
+      demand_junction_2.pressure -> pipe.link_energy,
+      # HERE
+      demand_junction_2.pressure -> pipe.flow_energy
+
+  # translate pump <-> junction
+  ###############################
+
+  translation junction -> pump:
+      pump.flow -> junction.junction_mass,
+      junction.junction_mass -> pump.flow,
+      junction.pressure -> pump.link_energy
+
+  translation pump -> junction:
+      pump.flow -> junction.junction_mass,
+      junction.junction_mass -> pump.flow,
+      junction.pressure -> pump.link_energy
+
+  translation junction_3 -> pump:
+      pump.flow -> junction_3.junction_3_mass,
+      junction_3.junction_3_mass -> pump.flow,
+      junction_3.pressure -> pump.link_energy
+
+  translation pump -> junction_3:
+      pump.flow -> junction_3.junction_3_mass,
+      junction_3.junction_3_mass -> pump.flow,
+      junction_3.pressure -> pump.link_energy
+
+  translation demand_junction_1 -> pump:
+      pump.flow -> demand_junction_1.demand_junction_1_mass,
+      demand_junction_1.demand_junction_1_mass -> pump.flow,
+      demand_junction_1.pressure -> pump.link_energy
+
+  translation pump -> demand_junction_1:
+      pump.flow -> demand_junction_1.demand_junction_1_mass,
+      demand_junction_1.demand_junction_1_mass -> pump.flow,
+      demand_junction_1.pressure -> pump.link_energy
+
+  translation demand_junction_2 -> pump:
+      pump.flow -> demand_junction_2.demand_junction_2_mass,
+      demand_junction_2.demand_junction_2_mass -> pump.flow,
+      demand_junction_2.pressure -> pump.link_energy
+
+  translation pump -> demand_junction_2:
+      pump.flow -> demand_junction_2.demand_junction_2_mass,
+      demand_junction_2.demand_junction_2_mass -> pump.flow,
+      demand_junction_2.pressure -> pump.link_energy
+
+  # translate pipe <-> tank
+  ###############################
+
+  translation pipe -> tank_1:
+      pipe.flow -> tank_1.tank_1_mass,
+      tank_1.pressure -> pipe.link_energy,
+      # HERE
+      pipe.flow_energy -> tank_1.pressure
+
+  translation tank_1 -> pipe:
+      pipe.flow -> tank_1.tank_1_mass,
+      tank_1.pressure -> pipe.link_energy,
+      # HERE
+      pipe.flow_energy -> tank_1.pressure
+
+  translation pipe -> tank_2:
+      pipe.flow -> tank_2.tank_2_mass,
+      tank_2.pressure -> pipe.link_energy
+
+  translation tank_2 -> pipe:
+      pipe.flow -> tank_2.tank_2_mass,
+      tank_2.pressure -> pipe.link_energy
+
+
+  # translate pump <-> tank
+  ###############################
+
+  translation pump -> tank_1:
+      pump.flow -> tank_1.tank_1_mass,
+      tank_1.pressure -> pump.link_energy
+
+  translation tank_1 -> pump:
+      pump.flow -> tank_1.tank_1_mass,
+      tank_1.pressure -> pump.link_energy
+
+  translation pump -> tank_2:
+      pump.flow -> tank_2.tank_2_mass,
+      tank_2.pressure -> pump.link_energy
+
+  translation tank_2 -> pump:
+      pump.flow -> tank_2.tank_2_mass,
+      tank_2.pressure -> pump.link_energy
+
+
+  # translate pump <-> reservoir
+  ###############################
+
+  translation reservoir -> pump:
+      reservoir.pressure -> pump.link_energy
+}
